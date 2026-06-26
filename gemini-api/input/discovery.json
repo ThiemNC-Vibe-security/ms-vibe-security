@@ -1,0 +1,104 @@
+
+{
+  "application": {
+    "name": "VC-AWG Demo",
+    "baseUrl": "https://vc-awg-demo-final-code.vercel.app"
+  },
+
+  "pages": [
+    {
+      "name": "Home",
+      "path": "/"
+    },
+    {
+      "name": "Login",
+      "path": "/login"
+    },
+    {
+      "name": "Register",
+      "path": "/register"
+    },
+    {
+      "name": "Dashboard",
+      "path": "/dashboard"
+    }
+  ],
+
+  "forms": [
+    {
+      "id": "login-form",
+      "name": "Login Form",
+
+      "page": "/login",
+
+      "fields": [
+        {
+          "name": "email",
+          "label": "Email",
+          "type": "email",
+          "required": true,
+          "selector": "input[name='email']"
+        },
+        {
+          "name": "password",
+          "label": "Password",
+          "type": "password",
+          "required": true,
+          "selector": "input[name='password']"
+        }
+      ],
+
+      "actions": [
+        {
+          "type": "submit",
+          "label": "Login",
+          "selector": "button[type='submit']"
+        }
+      ]
+    }
+  ],
+
+  "workflows": [
+    {
+      "id": "login-workflow",
+
+      "name": "User Login",
+
+      "page": "/login",
+
+      "steps": [
+        {
+          "action": "fill",
+          "target": "email"
+        },
+        {
+          "action": "fill",
+          "target": "password"
+        },
+        {
+          "action": "click",
+          "target": "Login"
+        }
+      ],
+
+      "expectedNavigation": "/dashboard"
+    }
+  ],
+
+  "securityTargets": [
+    {
+      "type": "authentication",
+      "workflowId": "login-workflow",
+
+      "threats": [
+        "Broken Authentication",
+        "Credential Stuffing",
+        "Weak Password",
+        "Session Fixation",
+        "SQL Injection",
+        "XSS"
+      ]
+    }
+  ]
+}
+
