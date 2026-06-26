@@ -1,37 +1,25 @@
-# Form-based authentication, with reusable storage state.
-# Run:
-#   1. Set TEST_USER and TEST_PASSWORD in .env
-#   2. discovery run --config examples/with-auth.yml
-#   3. Subsequent runs will skip the login because auth-state.json is saved.
+# Storage state authentication — uses pre-built auth-state.json
+# The token was obtained by calling the backend API directly.
+# Run:  discovery run --config examples/with-auth.yml
 
-target: https://app.example.com
+target: https://vc-awg-demo-final-code.vercel.app/transactions
 
 auth:
-  mode: form
-  login_url: /login
-  username_selector: 'input[name="email"]'
-  password_selector: 'input[name="password"]'
-  submit_selector: 'button[type="submit"]'
-  username: ${TEST_USER}
-  password: ${TEST_PASSWORD}
-  success_indicator: url=/dashboard
-  save_storage_state: ./auth-state.json
-
-scope:
-  exclude:
-    - /logout
-    - /admin
+  mode: storage_state
+  storage_state_path: ./auth-state.json
 
 crawl:
   max_pages: 30
-  max_depth: 3
+  max_depth: 4
   strategy: bfs
-  same_domain_only: true
 
-browser:
-  type: chromium
-  headless: true
+scope:
+  exclude:
+    - /login
+    - /register
+    - /forgot-password
+    - /logout
 
 output:
   dir: ./output
-  save_screenshots: true
+
