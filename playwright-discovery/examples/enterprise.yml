@@ -1,0 +1,57 @@
+# Enterprise / production-like config — broader scope, tighter timeouts, full audit trail.
+# Use this for sites that are large, slow, or need granular scope control.
+
+target: https://my-banking-app.example.com
+
+scope:
+  include:
+    - /login
+    - /dashboard
+    - /accounts/*
+    - /transactions/*
+    - /transfer
+    - /profile
+  exclude:
+    - /admin
+    - /api/internal/*
+    - /static/*
+    - /assets/*
+
+crawl:
+  max_pages: 100
+  max_depth: 4
+  strategy: bfs
+  same_domain_only: true
+  follow_subdomains: false
+  parallel: 1
+  respect_robots_txt: true
+
+auth:
+  mode: storage_state
+  storage_state_path: ./auth-state.json
+
+browser:
+  type: chromium
+  headless: true
+  user_agent: Mozilla/5.0 (Discovery Bot)
+  viewport:
+    width: 1440
+    height: 900
+  locale: en-US
+  timezone: Asia/Ho_Chi_Minh
+
+timing:
+  navigation_timeout: 60000
+  wait_for_network_idle: true
+  wait_after_navigation: 2000
+  action_timeout: 15000
+
+retry:
+  max_attempts: 3
+  backoff_ms: 3000
+
+output:
+  dir: ./output
+  filename_pattern: enterprise_{timestamp}.json
+  save_screenshots: true
+  save_traces: false

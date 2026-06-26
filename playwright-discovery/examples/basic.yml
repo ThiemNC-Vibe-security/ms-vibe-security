@@ -1,0 +1,11 @@
+# Minimal config — public site, no auth, default browser settings.
+# Run:  discovery run --config examples/basic.yml
+
+target: https://example.com
+
+crawl:
+  max_pages: 10
+  max_depth: 2
+
+output:
+  dir: ./output
