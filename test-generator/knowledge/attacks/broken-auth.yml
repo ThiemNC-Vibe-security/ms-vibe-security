@@ -1,0 +1,26 @@
+id: broken_auth
+name: Broken Authentication
+owasp:
+  - A07:2021
+applies_to:
+  - login_form
+  - password_field
+payloads:
+  - ""
+  - " "
+  - "admin"
+  - "password"
+  - "123456"
+detection:
+  - login_succeeds_with_weak_credentials
+  - login_succeeds_with_empty_password
+  - successful_login_indicator_after_invalid_attempt
+test_template_hints:
+  - fill_username_with_real_or_dummy_value
+  - try_each_payload_as_password
+  - submit_form_and_observe_navigation_or_error
+  - assert_login_did_not_succeed_with_obviously_weak_password
+  - assert_error_message_does_not_disclose_account_existence
+description: |
+  Checks that the application does not accept obviously weak passwords and
+  does not leak user-existence in error responses.

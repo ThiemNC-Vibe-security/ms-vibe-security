@@ -1,0 +1,23 @@
+id: open_redirect
+name: Open Redirect
+owasp:
+  - A01:2021
+applies_to:
+  - url_param
+payloads:
+  - "https://evil.example.com"
+  - "//evil.example.com"
+  - "/\\evil.example.com"
+  - "javascript:alert(1)"
+detection:
+  - response_redirects_to_external_host
+  - response_redirects_to_javascript_uri
+test_template_hints:
+  - identify_redirect_param_in_url
+  - navigate_with_payload_substituted_for_redirect_param
+  - capture_final_url_after_redirects
+  - assert_final_url_host_is_same_as_target_host
+  - assert_no_javascript_scheme_navigation
+description: |
+  URL parameters that drive a server-side or client-side redirect must
+  validate that the target is on the same origin.

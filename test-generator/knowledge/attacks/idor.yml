@@ -1,0 +1,26 @@
+id: idor
+name: Insecure Direct Object Reference
+owasp:
+  - A01:2021
+applies_to:
+  - url_param
+  - hidden_identifier
+payloads:
+  - "1"
+  - "0"
+  - "-1"
+  - "999999"
+  - "99999999"
+detection:
+  - response_returns_other_user_data
+  - response_status_200_for_unauthorized_resource
+  - response_does_not_return_403_or_404
+test_template_hints:
+  - identify_id_param_in_url_or_form
+  - substitute_payload_for_id
+  - send_request_with_authenticated_user
+  - assert_response_status_is_403_or_404_for_other_users_resource
+  - assert_response_body_does_not_contain_other_user_data
+description: |
+  IDOR tests for object references that may grant access to another user's
+  data when the reference value is incremented / decremented.

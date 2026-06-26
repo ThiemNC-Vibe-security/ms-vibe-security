@@ -1,0 +1,33 @@
+id: xss_reflected
+name: Reflected Cross-Site Scripting
+owasp:
+  - A03:2021
+applies_to:
+  - search_box
+  - generic_form
+  - form_without_csrf
+  - csrf_protected_form
+  - registration_form
+  - url_param
+payloads:
+  - "<script>alert(1)</script>"
+  - "\"><script>alert(1)</script>"
+  - "<img src=x onerror=alert(1)>"
+  - "javascript:alert(1)"
+  - "<svg onload=alert(1)>"
+  - "'\"><img src=x onerror=alert(1)>"
+  - "</textarea><script>alert(1)</script>"
+detection:
+  - payload_reflected_unescaped_in_response_html
+  - script_executes_in_page_context
+  - dialog_message_appears
+test_template_hints:
+  - inject_payload_into_text_inputs_only
+  - submit_form_or_navigate_with_param
+  - wait_for_response_or_navigation
+  - listen_for_dialog_event_and_dismiss
+  - assert_no_dialog_was_raised
+  - or_assert_payload_in_response_text_is_escaped
+description: |
+  Reflected XSS in inputs whose value is rendered back into the response.
+  Tests assert payloads are not executed and not reflected unescaped.

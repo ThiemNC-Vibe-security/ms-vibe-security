@@ -1,0 +1,37 @@
+# Focused configuration: only test login/registration pages, only auth-related attacks.
+
+target_discovery: ../playwright-discovery/output/discovery_latest.json
+
+scope:
+  include_page_types:
+    - login
+    - registration
+    - password_recovery
+  exclude_pages:
+    - /admin/*
+    - /logout
+
+priorities:
+  high:
+    - broken_auth
+    - sql_injection
+    - rate_limit
+  medium:
+    - csrf
+
+limits:
+  max_tests: 15
+  max_tests_per_page: 5
+
+test_config:
+  browsers:
+    - chromium
+  parallel: 2
+
+credentials:
+  valid:
+    user: ${TEST_USER}
+    pass: ${TEST_PASSWORD}
+  invalid:
+    user: wrong@example.com
+    pass: wrongpassword

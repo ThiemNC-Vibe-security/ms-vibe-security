@@ -1,0 +1,17 @@
+# Minimal tester requirement.
+# Run:
+#   npm run dev -- run --tester examples/tester-basic.yml \
+#                      --discovery ../playwright-discovery/output/discovery_*.json
+
+target_discovery: ../playwright-discovery/output/discovery_latest.json
+
+priorities:
+  high:
+    - sql_injection
+    - xss_reflected
+  medium:
+    - csrf
+
+limits:
+  max_tests: 20
+  max_tests_per_page: 5

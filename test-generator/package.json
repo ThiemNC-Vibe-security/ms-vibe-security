@@ -1,0 +1,34 @@
+{
+  "name": "test-generator",
+  "version": "0.1.0",
+  "description": "Plan-then-Generate pipeline: discovery + tester req + security knowledge → Playwright security tests",
+  "type": "module",
+  "bin": {
+    "test-gen": "./dist/cli.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx src/cli.ts",
+    "start": "node dist/cli.js",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "@google/generative-ai": "0.21.0",
+    "commander": "12.1.0",
+    "dotenv": "16.4.5",
+    "js-yaml": "4.1.0",
+    "pino": "9.5.0",
+    "pino-pretty": "11.3.0",
+    "zod": "3.23.8"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "4.0.9",
+    "@types/node": "22.10.5",
+    "tsx": "4.19.2",
+    "typescript": "5.7.3"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

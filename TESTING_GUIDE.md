@@ -1,0 +1,445 @@
+# Testing Guide — Pipeline end-to-end
+
+Hướng dẫn test pipeline (Playwright Discovery → Test Generator → Playwright run) lần đầu.
+
+---
+
+## Yêu cầu môi trường
+
+- Node.js 20+ (recommended 22 LTS, đã test với 26.3.1)
+- macOS / Linux (Windows chưa test)
+- Có sẵn 2 project đã build:
+  - `playwright-discovery/dist/` (đã `npm run build`)
+  - `test-generator/dist/` (đã `npm run build`)
+- Gemini API key (lấy ở https://aistudio.google.com/app/apikey)
+
+---
+
+## Bước 1: Setup Gemini API key
+
+```bash
+cd test-generator
+cp .env.example .env
+```
+
+Mở file `.env`, thêm:
+
+```
+GEMINI_API_KEY=AIzaSy...your_key_here
+GEMINI_MODEL=gemini-2.5-flash
+LOG_LEVEL=info
+GENERATOR_CONCURRENCY=5
+```
+
+> **Cost note:** `gemini-2.5-flash` rẻ (~$0.075/1M input tokens). 10 test cases thường ~$0.01-0.03.
+
+---
+
+## Bước 2: Discover một website (Stage 1)
+
+Có thể dùng discovery JSON đã có sẵn, hoặc discover site mới.
+
+### Option A — Dùng output có sẵn
+
+Bạn đã có:
+- `playwright-discovery/output/discovery_20260626_090939.json` (cellphones.com.vn, 5 pages)
+- `playwright-discovery/output/discovery_*.json` các file khác
+
+**Lưu ý:** cellphones.com.vn 5 pages đều là `content` type không có form → planner sẽ không chọn được test case nào. Để test pipeline thật sự, nên discover site có form.
+
+### Option B — Discover site mới có form
+
+Chọn site có form rõ ràng (contact, login, search...):
+
+```bash
+cd playwright-discovery
+
+# Site contact form
+node dist/cli.js run \
+  --url https://thiemjason-work.site/contactus \
+  --max-pages 5 \
+  --max-depth 2
+
+# Hoặc site có login
+node dist/cli.js run \
+  --url https://vc-awg-demo-final-code.vercel.app/login \
+  --max-pages 10
+
+# Hoặc public test site
+node dist/cli.js run \
+  --url https://practicetestautomation.com/practice-test-login/ \
+  --max-pages 5
+```
+
+→ Tạo file mới ở `playwright-discovery/output/discovery_YYYYMMDD_HHMMSS.json`.
+
+**Verify discovery có form:**
+
+```bash
+# Đếm forms trong output
+grep -o '"form_id"' playwright-discovery/output/discovery_*.json | wc -l
+
+# Đếm security components
+grep -o '"applicable_attacks"' playwright-discovery/output/discovery_*.json | wc -l
+```
+
+Nếu cả 2 = 0 → site không có form, đổi site khác.
+
+---
+
+## Bước 3: Tạo tester requirement
+
+Tạo file `test-generator/examples/tester-mytest.yml`:
+
+```yaml
+# Điều chỉnh path cho đúng với discovery file vừa tạo
+target_discovery: ../playwright-discovery/output/discovery_20260626_090939.json
+
+# Chỉ test 2 attack type ưu tiên cao
+priorities:
+  high:
+    - sql_injection
+    - xss_reflected
+  medium:
+    - csrf
+
+# Bắt đầu nhỏ để test pipeline
+limits:
+  max_tests: 5
+  max_tests_per_page: 3
+
+test_config:
+  browsers:
+    - chromium
+  parallel: 2
+```
+
+> **Khi đã work:** tăng `max_tests` lên 20-50 cho thật.
+
+---
+
+## Bước 4: Chạy pipeline
+
+### Cách 1 — Full pipeline (1 lệnh)
+
+```bash
+cd test-generator
+
+node dist/cli.js run \
+  --discovery ../playwright-discovery/output/discovery_20260626_090939.json \
+  --tester ./examples/tester-mytest.yml \
+  --out ./output \
+  --verbose
+```
+
+Log sẽ in:
+- `config loaded` → inputs OK
+- `planner starting` → Step 1 LLM call
+- `planner complete` (raw_test_cases, kept, dropped)
+- `generator starting` (test_count, concurrency)
+- `generator complete` (ok, failed)
+- `output written` → paths
+
+### Cách 2 — Step-by-step (recommended lần đầu)
+
+```bash
+cd test-generator
+
+# Step 1: Plan only
+node dist/cli.js plan \
+  --discovery ../playwright-discovery/output/discovery_20260626_090939.json \
+  --tester ./examples/tester-mytest.yml \
+  --out ./output/plan.json \
+  --verbose
+
+# Review plan (no LLM call)
+node dist/cli.js inspect ./output/plan.json
+```
+
+Output `inspect` ví dụ:
+
+```
+Plan: /path/to/plan.json
+Generated: 2026-06-26T16:00:00.000Z
+Model: gemini-2.5-flash
+Test cases: 5
+
+By priority:
+  high     4
+  medium   1
+
+By attack:
+  sql_injection            2
+  xss_reflected            2
+  csrf                     1
+
+By page (top 10):
+  3  https://example.com/contact
+  2  https://example.com/login
+```
+
+Nếu plan trông OK → generate:
+
+```bash
+node dist/cli.js generate \
+  --plan ./output/plan.json \
+  --discovery ../playwright-discovery/output/discovery_20260626_090939.json \
+  --tester ./examples/tester-mytest.yml \
+  --out ./output \
+  --verbose
+```
+
+---
+
+## Bước 5: Xem kết quả
+
+```bash
+cd test-generator/output
+
+ls -la
+# plan.json
+# summary.json
+# report.md
+# tests/
+#   ├── contact.spec.ts
+#   ├── login.spec.ts
+#   └── ...
+```
+
+### Xem report
+
+```bash
+cat report.md
+```
+
+Sẽ có table tổng hợp:
+
+```markdown
+| Metric | Value |
+|---|---|
+| Test cases planned | 5 |
+| Tests generated | 5 |
+| Tests failed | 0 |
+| Spec files written | 2 |
+```
+
+Và breakdown per page với status từng test case.
+
+### Xem test code
+
+```bash
+cat tests/contact.spec.ts
+```
+
+Phải thấy code dạng:
+
+```typescript
+/**
+ * Auto-generated by test-generator.
+ * Page: https://example.com/contact
+ * Test cases:
+ * - TC-001 (sql_injection)
+ * - TC-002 (xss_reflected)
+ */
+
+import { test, expect } from '@playwright/test';
+
+// ----- TC-001: sql_injection -----
+test('TC-001 - SQL Injection on Contact form email', async ({ page }) => {
+  await page.goto('https://example.com/contact');
+  await page.getByLabel('Email').fill("' OR '1'='1");
+  await page.getByLabel('Name').fill('test');
+  await page.getByLabel('Message').fill('test');
+  await page.getByRole('button', { name: 'Submit' }).click();
+  await expect(page.locator('body')).not.toContainText(/sql|syntax/i);
+});
+
+// ----- TC-002: xss_reflected -----
+test('TC-002 - Reflected XSS on Contact form name', async ({ page }) => {
+  // ...
+});
+```
+
+---
+
+## Bước 6 (optional): Chạy thử Playwright tests
+
+Tạo project Playwright tạm để run tests:
+
+```bash
+cd test-generator/output
+
+# Setup
+npm init -y
+npm install -D @playwright/test
+npx playwright install chromium
+
+# Run all generated tests
+npx playwright test tests/
+
+# Hoặc 1 file
+npx playwright test tests/contact.spec.ts
+
+# Headed mode để xem browser thật
+npx playwright test tests/ --headed
+
+# UI mode để debug
+npx playwright test tests/ --ui
+```
+
+Sau khi chạy:
+
+```bash
+# Xem HTML report
+npx playwright show-report
+```
+
+---
+
+## Iterate / Tweak
+
+### Đổi priorities
+
+Edit `examples/tester-mytest.yml`:
+
+```yaml
+priorities:
+  high:
+    - broken_auth        # thêm
+    - rate_limit          # thêm
+  # ...
+```
+
+Rerun **chỉ test-generator**, không cần re-crawl:
+
+```bash
+node dist/cli.js run \
+  --discovery ../playwright-discovery/output/discovery_20260626_090939.json \
+  --tester ./examples/tester-mytest.yml \
+  --out ./output
+```
+
+### Đổi max_tests
+
+```yaml
+limits:
+  max_tests: 30           # nhiều hơn
+  max_tests_per_page: 5
+```
+
+### Đổi model (nếu muốn quality cao hơn)
+
+Trong `.env`:
+
+```
+GEMINI_MODEL=gemini-2.5-pro
+```
+
+Pro thông minh hơn nhưng cost cao hơn ~10x.
+
+### Chỉ test 1 page
+
+```yaml
+scope:
+  include_urls:
+    - https://example.com/contact
+```
+
+---
+
+## Troubleshooting
+
+### "GEMINI_API_KEY is not set"
+
+→ Chưa edit `.env` hoặc đang chạy ở dir khác. `cd test-generator` rồi rerun.
+
+### Planner trả về 0 test cases
+
+Nguyên nhân thường gặp:
+- Discovery không có form (cellphones.com.vn case)
+- Tester scope.exclude quá rộng
+- Tester priorities không match attack applies_to
+
+→ Check `inspect plan.json` xem reasoning, hoặc thử relax tester req.
+
+### "Page not found in index: P-001"
+
+→ LLM bịa page_id. Có thể do prompt confusion. Run lại, hoặc đổi model sang Pro.
+
+### Generated test fail khi chạy
+
+Vì discovery chưa có endpoint capture (Phase 2.0 chưa làm), test có thể assert sai. Workaround:
+- Đọc test code, sửa assertion phù hợp
+- Hoặc đợi Phase 2.0
+
+### Rate limit từ Gemini
+
+```
+Error: 429 Too Many Requests
+```
+
+→ Giảm concurrency:
+
+```bash
+node dist/cli.js run ... --concurrency 2
+```
+
+Hoặc trong `.env`:
+
+```
+GENERATOR_CONCURRENCY=2
+```
+
+### TS compile error trong generated test
+
+LLM đôi khi quên import hoặc dùng API sai. Có 2 cách:
+1. Sửa tay test bị lỗi
+2. Rerun cùng test case với Pro model
+
+---
+
+## Checklist test thành công
+
+- [ ] `GEMINI_API_KEY` set trong `.env`
+- [ ] `discovery.json` có ≥1 form (check bằng `grep "form_id"`)
+- [ ] `tester-mytest.yml` có ít nhất 1 attack trong priorities
+- [ ] `node dist/cli.js plan` chạy xong không lỗi
+- [ ] `plan.json` có ≥1 test case
+- [ ] `node dist/cli.js generate` chạy xong
+- [ ] `tests/*.spec.ts` có valid TypeScript (mở xem)
+- [ ] `report.md` show tests_generated > 0
+- [ ] `npx playwright test tests/` chạy được (có thể fail assertion, không sao)
+
+Nếu tất cả checkbox đều ✓ → pipeline đang hoạt động.
+
+---
+
+## Cost estimate
+
+| Run scale | Tokens (rough) | Cost Gemini Flash |
+|---|---|---|
+| Smoke (5 tests, 3 pages) | ~25K | <$0.01 |
+| Small site (20 tests, 10 pages) | ~100K | ~$0.03 |
+| Medium site (50 tests, 50 pages) | ~250K | ~$0.10 |
+| Large site (200 tests, 200 pages) | ~1M | ~$0.50 |
+
+Pro model ~10x cost.
+
+---
+
+## Files được tạo bởi pipeline
+
+Sau 1 run thành công:
+
+```
+test-generator/output/
+├── plan.json              # TestPlan: list of test cases
+├── summary.json           # Full run record (input + plan + artifacts)
+├── report.md              # Human-readable summary table
+└── tests/
+    ├── login.spec.ts      # Generated tests, grouped by page
+    ├── contact.spec.ts
+    └── ...
+```
+
+Mọi file đều committable nếu dùng trong CI/CD.

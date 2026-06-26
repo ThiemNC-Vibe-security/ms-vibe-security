@@ -1,0 +1,48 @@
+# Full configuration showcasing every option.
+
+target_discovery: ../playwright-discovery/output/discovery_latest.json
+
+scope:
+  include_page_types:
+    - login
+    - registration
+    - contact
+    - search
+    - payment
+    - generic_form
+  exclude_pages:
+    - /admin/*
+    - /logout
+    - /api/internal/*
+  include_urls: []
+
+priorities:
+  high:
+    - sql_injection
+    - xss_reflected
+    - broken_auth
+  medium:
+    - csrf
+    - open_redirect
+    - idor
+  low:
+    - rate_limit
+
+limits:
+  max_tests: 50
+  max_tests_per_page: 10
+
+test_config:
+  browsers:
+    - chromium
+    - firefox
+  parallel: 4
+  base_url: https://target.example.com
+
+credentials:
+  valid:
+    user: ${TEST_USER}
+    pass: ${TEST_PASSWORD}
+  invalid:
+    user: ${INVALID_USER}
+    pass: ${INVALID_PASSWORD}
