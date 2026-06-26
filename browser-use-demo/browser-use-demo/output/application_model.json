@@ -1,0 +1,968 @@
+{
+  "base_url": "https://uet.vnu.edu.vn/",
+  "total_pages_discovered": 5,
+  "pages": [
+    {
+      "url": "https://uet.vnu.edu.vn/",
+      "title": "Trang chủ - Trường Đại học Công Nghệ - Đại học Quốc Gia Hà Nội",
+      "page_type": "Landing Page",
+      "breadcrumb": [],
+      "authentication": "anonymous",
+      "navigation": [
+        {
+          "label": "https://vnu.edu.vn",
+          "href": "https://vnu.edu.vn/",
+          "section": "navbar"
+        },
+        {
+          "label": "VI",
+          "href": "https://uet.vnu.edu.vn/",
+          "section": "navbar"
+        },
+        {
+          "label": "EN",
+          "href": "https://uet.vnu.edu.vn/en/",
+          "section": "navbar"
+        },
+        {
+          "label": "GIỚI THIỆU",
+          "href": "https://uet.vnu.edu.vn/gioi-thieu/",
+          "section": "navbar"
+        },
+        {
+          "label": "ĐÀO TẠO",
+          "href": "https://uet.vnu.edu.vn/dao-tao/",
+          "section": "navbar"
+        },
+        {
+          "label": "KHOA HỌC CÔNG NGHỆ",
+          "href": "https://uet.vnu.edu.vn/nghien-cuu-doi-moi/",
+          "section": "navbar"
+        },
+        {
+          "label": "TUYỂN SINH",
+          "href": "https://uet.vnu.edu.vn/tuyen-sinh/",
+          "section": "navbar"
+        },
+        {
+          "label": "TIN TỨC",
+          "href": "https://uet.vnu.edu.vn/tin-tuc/",
+          "section": "navbar"
+        },
+        {
+          "label": "CÔNG TÁC NGƯỜI HỌC",
+          "href": "https://uet.vnu.edu.vn/doi-song-sinh-vien/",
+          "section": "navbar"
+        },
+        {
+          "label": "Hồ sơ năng lực",
+          "href": "https://uet.vnu.edu.vn/#",
+          "section": "footer"
+        },
+        {
+          "label": "Liên hệ hợp tác",
+          "href": "https://uet.vnu.edu.vn/lien-he/",
+          "section": "footer"
+        },
+        {
+          "label": "Chiến lược phát triển",
+          "href": "https://uet.vnu.edu.vn/chien-luoc-phat-trien/",
+          "section": "footer"
+        },
+        {
+          "label": "Chuyên san CNTT & TT",
+          "href": "https://jcsce.vnu.edu.vn/index.php/jcsce",
+          "section": "footer"
+        },
+        {
+          "label": "Đối tác",
+          "href": "https://uet.vnu.edu.vn/category/khoa-hoc-cong-nghe/hop-tac/",
+          "section": "footer"
+        },
+        {
+          "label": "Công khai Cơ sở Giáo dục",
+          "href": "https://qac.uet.vnu.edu.vn/bai-viet/cong-khai-csgd",
+          "section": "footer"
+        },
+        {
+          "label": "Đảm bảo chất lượng",
+          "href": "https://qac.uet.vnu.edu.vn/",
+          "section": "footer"
+        },
+        {
+          "label": "Học liệu số",
+          "href": "https://lic.vnu.edu.vn/",
+          "section": "footer"
+        },
+        {
+          "label": "Ứng dụng Công nghệ thông tin",
+          "href": "https://uet.vnu.edu.vn/cac-ung-dung-cong-nghe-thong-tin-trong-quan-ly/",
+          "section": "footer"
+        },
+        {
+          "label": "Thông tin tuyển sinh",
+          "href": "https://uet.vnu.edu.vn/tuyen-sinh/",
+          "section": "footer"
+        },
+        {
+          "label": "Điểm chuẩn đầu vào",
+          "href": "https://tuyensinh.uet.vnu.edu.vn/ban-nen-biet/thong-bao-nguong-dau-vao-va-quy-doi-diem-trong-xet-tuyen-dhcq-nam-2025/",
+          "section": "footer"
+        },
+        {
+          "label": "Tư vấn tuyển sinh",
+          "href": "https://www.facebook.com/groups/uet.tvts/",
+          "section": "footer"
+        }
+      ],
+      "forms": [
+        {
+          "name": "Search Form",
+          "action": "https://uet.vnu.edu.vn/",
+          "method": "GET",
+          "inputs": [
+            {
+              "label": "Nhập từ khóa ...",
+              "name": "s",
+              "type": "search",
+              "required": false,
+              "placeholder": "Nhập từ khóa ..."
+            }
+          ],
+          "validation": []
+        }
+      ],
+      "buttons": [
+        {
+          "label": "Xem thêm",
+          "type": "link",
+          "business_meaning": "View more information"
+        },
+        {
+          "label": "tìm ngành phù hợp",
+          "type": "link",
+          "business_meaning": "Find suitable major"
+        },
+        {
+          "label": "Slide trước",
+          "type": "button",
+          "business_meaning": "Previous slide in carousel"
+        },
+        {
+          "label": "Slide tiếp theo",
+          "type": "button",
+          "business_meaning": "Next slide in carousel"
+        },
+        {
+          "label": "Đi đến slide 1",
+          "type": "button",
+          "business_meaning": "Go to slide 1"
+        },
+        {
+          "label": "Đi đến slide 2",
+          "type": "button",
+          "business_meaning": "Go to slide 2"
+        },
+        {
+          "label": "Watch on YouTube",
+          "type": "link",
+          "business_meaning": "Watch video on YouTube"
+        }
+      ],
+      "inputs": [],
+      "tables": [],
+      "dialogs": [],
+      "links": [
+        {
+          "text": "Liên hệ chúng tôi để được tư vấn",
+          "href": "#",
+          "is_external": false
+        },
+        {
+          "text": "033.4924.224",
+          "href": "tel:0334924224",
+          "is_external": false
+        },
+        {
+          "text": "uet@vnu.edu.vn",
+          "href": "mailto:uet@vnu.edu.vn",
+          "is_external": false
+        },
+        {
+          "text": "https://vnu.edu.vn",
+          "href": "https://vnu.edu.vn",
+          "is_external": true
+        },
+        {
+          "text": "VI",
+          "href": "https://uet.vnu.edu.vn",
+          "is_external": false
+        },
+        {
+          "text": "EN",
+          "href": "https://uet.vnu.edu.vn/en",
+          "is_external": false
+        },
+        {
+          "text": "GIỚI THIỆU",
+          "href": "https://uet.vnu.edu.vn/gioi-thieu/",
+          "is_external": false
+        },
+        {
+          "text": "ĐÀO TẠO",
+          "href": "https://uet.vnu.edu.vn/dao-tao/",
+          "is_external": false
+        },
+        {
+          "text": "KHOA HỌC CÔNG NGHỆ",
+          "href": "https://uet.vnu.edu.vn/nghien-cuu-doi-moi/",
+          "is_external": false
+        },
+        {
+          "text": "TUYỂN SINH",
+          "href": "https://uet.vnu.edu.vn/tuyen-sinh/",
+          "is_external": false
+        },
+        {
+          "text": "TIN TỨC",
+          "href": "https://uet.vnu.edu.vn/tin-tuc/",
+          "is_external": false
+        },
+        {
+          "text": "CÔNG TÁC NGƯỜI HỌC",
+          "href": "https://uet.vnu.edu.vn/doi-song-sinh-vien/",
+          "is_external": false
+        },
+        {
+          "text": "Xem thêm",
+          "href": "https://uet.vnu.edu.vn/chuong-trinh-dao-tao-nganh-ky-thuat-nang-luong-tai-truong-dh-cong-nghe-dhqg-ha-noi-co-gi-dac-biet/",
+          "is_external": false
+        },
+        {
+          "text": "tìm ngành phù hợp",
+          "href": "https://uet.edu.vn/dao-tao/",
+          "is_external": true
+        },
+        {
+          "text": "Facebook",
+          "href": "https://www.facebook.com/UET.VNUH",
+          "is_external": true
+        },
+        {
+          "text": "Linkedin",
+          "href": "https://www.linkedin.com/school/72990365",
+          "is_external": true
+        },
+        {
+          "text": "Tiktok",
+          "href": "https://www.tiktok.com/@uet.vnu.edu.vn",
+          "is_external": true
+        },
+        {
+          "text": "Youtube",
+          "href": "https://www.youtube.com/@vnu-uet",
+          "is_external": true
+        },
+        {
+          "text": "Hồ sơ năng lực",
+          "href": "https://uet.vnu.edu.vn/#",
+          "is_external": false
+        },
+        {
+          "text": "Liên hệ hợp tác",
+          "href": "https://uet.vnu.edu.vn/lien-he/",
+          "is_external": false
+        },
+        {
+          "text": "Chiến lược phát triển",
+          "href": "https://uet.vnu.edu.vn/chien-luoc-phat-trien/",
+          "is_external": false
+        },
+        {
+          "text": "Chuyên san CNTT & TT",
+          "href": "https://jcsce.vnu.edu.vn/index.php/jcsce",
+          "is_external": true
+        },
+        {
+          "text": "Đối tác",
+          "href": "https://uet.vnu.edu.vn/category/khoa-hoc-cong-nghe/hop-tac/",
+          "is_external": false
+        },
+        {
+          "text": "Công khai Cơ sở Giáo dục",
+          "href": "https://qac.uet.vnu.edu.vn/bai-viet/cong-khai-csgd",
+          "is_external": true
+        },
+        {
+          "text": "Đảm bảo chất lượng",
+          "href": "https://qac.uet.vnu.edu.vn/",
+          "is_external": true
+        },
+        {
+          "text": "Học liệu số",
+          "href": "https://lic.vnu.edu.vn/",
+          "is_external": true
+        },
+        {
+          "text": "Ứng dụng Công nghệ thông tin",
+          "href": "https://uet.vnu.edu.vn/cac-ung-dung-cong-nghe-thong-tin-trong-quan-ly/",
+          "is_external": false
+        },
+        {
+          "text": "Thông tin tuyển sinh",
+          "href": "https://uet.vnu.edu.vn/tuyen-sinh/",
+          "is_external": false
+        },
+        {
+          "text": "Điểm chuẩn đầu vào",
+          "href": "https://tuyensinh.uet.vnu.edu.vn/ban-nen-biet/thong-bao-nguong-dau-vao-va-quy-doi-diem-trong-xet-tuyen-dhcq-nam-2025/",
+          "is_external": true
+        },
+        {
+          "text": "Tư vấn tuyển sinh",
+          "href": "https://www.facebook.com/groups/uet.tvts/",
+          "is_external": true
+        }
+      ],
+      "business_actions": [
+        "Search for information",
+        "Navigate to different sections of the website",
+        "View more news/events",
+        "Find suitable major",
+        "Interact with social media links",
+        "View academic information",
+        "View admissions information"
+      ],
+      "next_candidate_pages": [
+        "https://vnu.edu.vn/",
+        "https://uet.vnu.edu.vn/en/",
+        "https://uet.vnu.edu.vn/gioi-thieu/",
+        "https://uet.vnu.edu.vn/dao-tao/",
+        "https://uet.vnu.edu.vn/nghien-cuu-doi-moi/",
+        "https://uet.vnu.edu.vn/tuyen-sinh/",
+        "https://uet.vnu.edu.vn/tin-tuc/",
+        "https://uet.vnu.edu.vn/doi-song-sinh-vien/",
+        "https://uet.vnu.edu.vn/chuong-trinh-dao-tao-nganh-ky-thuat-nang-luong-tai-truong-dh-cong-nghe-dhqg-ha-noi-co-gi-dac-biet/",
+        "https://uet.edu.vn/dao-tao/",
+        "https://www.facebook.com/UET.VNUH",
+        "https://www.linkedin.com/school/72990365",
+        "https://www.tiktok.com/@uet.vnu.edu.vn",
+        "https://www.youtube.com/@vnu-uet",
+        "https://uet.vnu.edu.vn/lien-he/",
+        "https://uet.vnu.edu.vn/chien-luoc-phat-trien/",
+        "https://jcsce.vnu.edu.vn/index.php/jcsce",
+        "https://uet.vnu.edu.vn/category/khoa-hoc-cong-nghe/hop-tac/",
+        "https://qac.uet.vnu.edu.vn/bai-viet/cong-khai-csgd",
+        "https://qac.uet.vnu.edu.vn/",
+        "https://lic.vnu.edu.vn/",
+        "https://uet.vnu.edu.vn/cac-ung-dung-cong-nghe-thong-tin-trong-quan-ly/",
+        "https://tuyensinh.uet.vnu.edu.vn/ban-nen-biet/thong-bao-nguong-dau-vao-va-quy-doi-diem-trong-xet-tuyen-dhcq-nam-2025/",
+        "https://www.facebook.com/groups/uet.tvts/"
+      ]
+    },
+    {
+      "url": "https://uet.vnu.edu.vn/en/",
+      "title": "Homepage - VNU-UET",
+      "page_type": "Landing Page",
+      "breadcrumb": [],
+      "authentication": "anonymous",
+      "navigation": [
+        {
+          "label": "E-Office",
+          "href": "https://eoffice.vnu.edu.vn",
+          "section": "navbar"
+        },
+        {
+          "label": "VNU Library",
+          "href": "https://lic.vnu.edu.vn/en",
+          "section": "navbar"
+        },
+        {
+          "label": "Courses",
+          "href": "https://courses.uet.vnu.edu.vn",
+          "section": "navbar"
+        },
+        {
+          "label": "Publications",
+          "href": "http://eprints.uet.vnu.edu.vn",
+          "section": "navbar"
+        },
+        {
+          "label": "Journal",
+          "href": "https://uet.vnu.edu.vn/en/chuyen-san-cntt-tt/",
+          "section": "navbar"
+        },
+        {
+          "label": "VNU Journal of Science",
+          "href": "https://jcsce.vnu.edu.vn/index.php/jcsce",
+          "section": "navbar"
+        },
+        {
+          "label": "REV Journal",
+          "href": "https://www.rev-jec.org/index.php/rev-jec",
+          "section": "navbar"
+        },
+        {
+          "label": "Tiếng Việt",
+          "href": "https://uet.vnu.edu.vn",
+          "section": "navbar"
+        },
+        {
+          "label": "About UET",
+          "href": "https://uet.vnu.edu.vn/en/about-uet/",
+          "section": "navbar"
+        },
+        {
+          "label": "Vision, Mission, Values",
+          "href": "https://uet.vnu.edu.vn/en/missions-and-vision/",
+          "section": "navbar"
+        },
+        {
+          "label": "VNU-UET’s Development Strategy",
+          "href": "https://uet.vnu.edu.vn/en/about-uet/university-development-strategy-2025-vision-2035/",
+          "section": "navbar"
+        },
+        {
+          "label": "UET impact",
+          "href": "https://uet.vnu.edu.vn/en/uet-impacts/",
+          "section": "navbar"
+        },
+        {
+          "label": "Organizational structure",
+          "href": "https://uet.vnu.edu.vn/en/list-faculties-centers/",
+          "section": "navbar"
+        },
+        {
+          "label": "Staff",
+          "href": "https://uet.vnu.edu.vn/en/staff/",
+          "section": "navbar"
+        },
+        {
+          "label": "Address",
+          "href": "https://uet.vnu.edu.vn/en/address/",
+          "section": "navbar"
+        },
+        {
+          "label": "Admission",
+          "href": "https://uet.vnu.edu.vn/en/category/admission/",
+          "section": "navbar"
+        },
+        {
+          "label": "Educations",
+          "href": "https://uet.vnu.edu.vn/en/educations-2/",
+          "section": "navbar"
+        },
+        {
+          "label": "Overview",
+          "href": "https://uet.vnu.edu.vn/en/academics-overview/",
+          "section": "navbar"
+        },
+        {
+          "label": "Undergraduate",
+          "href": "https://uet.vnu.edu.vn/en/category/undergraduate/",
+          "section": "navbar"
+        },
+        {
+          "label": "Graduate",
+          "href": "https://uet.vnu.edu.vn/en/category/graduate/",
+          "section": "navbar"
+        },
+        {
+          "label": "Research",
+          "href": "https://uet.vnu.edu.vn/en/category/research/",
+          "section": "navbar"
+        },
+        {
+          "label": "Research news",
+          "href": "https://uet.vnu.edu.vn/en/category/research-news/",
+          "section": "navbar"
+        },
+        {
+          "label": "Research Centers, Labs & Institutes",
+          "href": "https://uet.vnu.edu.vn/en/category/research-centers-labs-institutes/",
+          "section": "navbar"
+        },
+        {
+          "label": "Student research",
+          "href": "https://uet.vnu.edu.vn/en/category/student-research/",
+          "section": "navbar"
+        },
+        {
+          "label": "Campus Life",
+          "href": "https://uet.vnu.edu.vn/en/category/students/",
+          "section": "navbar"
+        },
+        {
+          "label": "Recruitment",
+          "href": "https://uet.vnu.edu.vn/en/category/recruitment/",
+          "section": "navbar"
+        },
+        {
+          "label": "Covid-19",
+          "href": "https://uet.vnu.edu.vn/en/category/covid-19/",
+          "section": "navbar"
+        },
+        {
+          "label": "List of Schools & Faculties",
+          "href": "https://e.uet.vnu.edu.vn/khoa-vien-bo-mon/",
+          "section": "footer"
+        },
+        {
+          "label": "List of Research Centers",
+          "href": "https://e.uet.vnu.edu.vn/category/research-centers-labs-institutes/",
+          "section": "footer"
+        },
+        {
+          "label": "List of Administrative Offices",
+          "href": "https://e.uet.vnu.edu.vn/list-faculties-centers/",
+          "section": "footer"
+        },
+        {
+          "label": "TOP",
+          "href": "#top",
+          "section": "footer"
+        }
+      ],
+      "forms": [],
+      "buttons": [],
+      "inputs": [],
+      "tables": [],
+      "dialogs": [],
+      "links": [
+        {
+          "text": "Opening Ceremony of the First ICPC Asia-Pacific Championship 2024",
+          "href": "https://uet.vnu.edu.vn/en/opening-ceremony-of-the-first-icpc-asia-pacific-championship-2024/",
+          "is_external": false
+        },
+        {
+          "text": "Samsung, Vietnam National University link up on semiconductor training",
+          "href": "https://uet.vnu.edu.vn/en/samsung-vietnam-national-university-link-up-on-semiconductor-training/",
+          "is_external": false
+        },
+        {
+          "text": "International Collegiate Programming Contest (ICPC) 2024: UET Contributes to Vietnam’s Mark in the Global Information Technology Sector",
+          "href": "https://uet.vnu.edu.vn/en/international-collegiate-programming-contest-icpc-2024-uet-contributes-to-vietnams-mark-in-the-global-information-technology-sector/",
+          "is_external": false
+        },
+        {
+          "text": "The University of Engineering and Technology team achieved the highest ranking for Vietnam at the 2024 ICPC Asia Pacific Championship",
+          "href": "https://uet.vnu.edu.vn/en/the-university-of-engineering-and-technology-team-achieved-the-highest-ranking-for-vietnam-at-the-2024-icpc-asia-pacific-championship/",
+          "is_external": false
+        },
+        {
+          "text": "University of Engineering and Technology has a new Chairman of the University Council and a new Rector",
+          "href": "https://uet.vnu.edu.vn/en/university-of-engineering-and-technology-has-a-new-chairman-of-the-university-council-and-a-new-rector/",
+          "is_external": false
+        },
+        {
+          "text": "uet@vnu.edu.vn",
+          "href": "mailto:uet@vnu.edu.vn",
+          "is_external": false
+        }
+      ],
+      "business_actions": [
+        "View About UET information",
+        "View Admission information",
+        "View Education information",
+        "View Research information",
+        "View Campus Life information",
+        "View Recruitment information",
+        "View Covid-19 information",
+        "View News/Events"
+      ],
+      "next_candidate_pages": [
+        "/en/about-uet/",
+        "/en/missions-and-vision/",
+        "/en/about-uet/university-development-strategy-2025-vision-2035/",
+        "/en/uet-impacts/",
+        "/en/list-faculties-centers/",
+        "/en/staff/",
+        "/en/address/",
+        "/en/category/admission/",
+        "/en/educations-2/",
+        "/en/academics-overview/",
+        "/en/category/undergraduate/",
+        "/en/category/graduate/",
+        "/en/category/research/",
+        "/en/category/research-news/",
+        "/en/category/research-centers-labs-institutes/",
+        "/en/category/student-research/",
+        "/en/category/students/",
+        "/en/category/recruitment/",
+        "/en/category/covid-19/",
+        "https://eoffice.vnu.edu.vn",
+        "https://lic.vnu.edu.vn/en",
+        "https://courses.uet.vnu.edu.vn",
+        "http://eprints.uet.vnu.edu.vn",
+        "https://uet.vnu.edu.vn/en/chuyen-san-cntt-tt/",
+        "https://jcsce.vnu.edu.vn/index.php/jcsce",
+        "https://www.rev-jec.org/index.php/rev-jec",
+        "https://uet.vnu.edu.vn",
+        "https://e.uet.vnu.edu.vn/khoa-vien-bo-mon/",
+        "https://e.uet.vnu.edu.vn/category/research-centers-labs-institutes/",
+        "https://e.uet.vnu.edu.vn/list-faculties-centers/",
+        "/en/opening-ceremony-of-the-first-icpc-asia-pacific-championship-2024/",
+        "/en/samsung-vietnam-national-university-link-up-on-semiconductor-training/",
+        "/en/international-collegiate-programming-contest-icpc-2024-uet-contributes-to-vietnams-mark-in-the-global-information-technology-sector/",
+        "/en/the-university-of-engineering-and-technology-team-achieved-the-highest-ranking-for-vietnam-at-the-2024-icpc-asia-pacific-championship/",
+        "/en/university-of-engineering-and-technology-has-a-new-chairman-of-the-university-council-and-a-new-rector/"
+      ]
+    },
+    {
+      "url": "https://uet.vnu.edu.vn/gioi-thieu",
+      "title": "",
+      "page_type": "",
+      "breadcrumb": [],
+      "authentication": "",
+      "navigation": [],
+      "forms": [],
+      "buttons": [],
+      "inputs": [],
+      "tables": [],
+      "dialogs": [],
+      "links": [],
+      "business_actions": [],
+      "next_candidate_pages": []
+    },
+    {
+      "url": "https://uet.vnu.edu.vn/dao-tao",
+      "title": "Đào tạo - Trường Đại học Công Nghệ - Đại học Quốc Gia Hà Nội",
+      "page_type": "Educational Program Details / Academic Programs Overview",
+      "breadcrumb": [],
+      "authentication": "anonymous",
+      "navigation": [
+        {
+          "label": "GIỚI THIỆU",
+          "href": "https://uet.vnu.edu.vn/gioi-thieu/",
+          "section": "navbar"
+        },
+        {
+          "label": "ĐÀO TẠO",
+          "href": "https://uet.vnu.edu.vn/dao-tao/",
+          "section": "navbar"
+        },
+        {
+          "label": "KHOA HỌC CÔNG NGHỆ",
+          "href": "https://uet.vnu.edu.vn/nghien-cuu-doi-moi/",
+          "section": "navbar"
+        },
+        {
+          "label": "TUYỂN SINH",
+          "href": "https://uet.vnu.edu.vn/tuyen-sinh/",
+          "section": "navbar"
+        },
+        {
+          "label": "TIN TỨC",
+          "href": "https://uet.vnu.edu.vn/tin-tuc/",
+          "section": "navbar"
+        },
+        {
+          "label": "CÔNG TÁC NGƯỜI HỌC",
+          "href": "https://uet.vnu.edu.vn/doi-song-sinh-vien/",
+          "section": "navbar"
+        },
+        {
+          "label": "VI",
+          "href": "https://uet.vnu.edu.vn/",
+          "section": "navbar"
+        },
+        {
+          "label": "EN",
+          "href": "",
+          "section": "navbar"
+        },
+        {
+          "label": "Hồ sơ năng lực",
+          "href": "#",
+          "section": "footer"
+        },
+        {
+          "label": "Liên hệ hợp tác",
+          "href": "https://uet.vnu.edu.vn/lien-he/",
+          "section": "footer"
+        },
+        {
+          "label": "Chiến lược phát triển",
+          "href": "/chien-luoc-phat-trien/",
+          "section": "footer"
+        },
+        {
+          "label": "Chuyên san CNTT & TT",
+          "href": "https://jcsce.vnu.edu.vn/index.php/jcsce",
+          "section": "footer"
+        },
+        {
+          "label": "Đối tác",
+          "href": "https://uet.vnu.edu.vn/category/khoa-hoc-cong-nghe/hop-tac/",
+          "section": "footer"
+        },
+        {
+          "label": "Công khai Cơ sở Giáo dục",
+          "href": "https://qac.uet.vnu.edu.vn/bai-viet/cong-khai-csgd",
+          "section": "footer"
+        },
+        {
+          "label": "Đảm bảo chất lượng",
+          "href": "https://qac.uet.vnu.edu.vn/",
+          "section": "footer"
+        },
+        {
+          "label": "Học liệu số",
+          "href": "https://lic.vnu.edu.vn/",
+          "section": "footer"
+        },
+        {
+          "label": "Ứng dụng Công nghệ thông tin",
+          "href": "/cac-ung-dung-cong-nghe-thong-tin-trong-quan-ly/",
+          "section": "footer"
+        },
+        {
+          "label": "Thông tin tuyển sinh",
+          "href": "/tuyen-sinh/",
+          "section": "footer"
+        },
+        {
+          "label": "Điểm chuẩn đầu vào",
+          "href": "https://tuyensinh.uet.vnu.edu.vn/ban-nen-biet/thong-bao-nguong-dau-vao-va-quy-doi-diem-trong-xet-tuyen-dhcq-nam-2025/",
+          "section": "footer"
+        },
+        {
+          "label": "Tư vấn tuyển sinh",
+          "href": "https://www.facebook.com/groups/uet.tvts/",
+          "section": "footer"
+        }
+      ],
+      "forms": [
+        {
+          "name": "Search",
+          "action": "",
+          "method": "GET",
+          "inputs": [
+            {
+              "label": "",
+              "name": "s",
+              "type": "search",
+              "required": false,
+              "placeholder": "Nhập từ khóa ..."
+            }
+          ],
+          "validation": []
+        }
+      ],
+      "buttons": [
+        {
+          "label": "đào tạo đại học",
+          "type": "button",
+          "business_meaning": "Show undergraduate programs"
+        },
+        {
+          "label": "đào tạo sau đại học",
+          "type": "button",
+          "business_meaning": "Show postgraduate programs"
+        },
+        {
+          "label": "Chương trình đào tạo",
+          "type": "button",
+          "business_meaning": "Show training programs"
+        },
+        {
+          "label": "Quy định - Quy chế",
+          "type": "button",
+          "business_meaning": "Show regulations"
+        }
+      ],
+      "inputs": [],
+      "tables": [
+        {
+          "name": "Undergraduate Programs",
+          "columns": [
+            "STT",
+            "Ngành đào tạo",
+            "Chương trình đào tạo",
+            "Văn bằng",
+            "Thời gian chuẩn (Năm)",
+            "Ghi chú"
+          ],
+          "row_count": 15
+        },
+        {
+          "name": "Postgraduate (Master's) Programs",
+          "columns": [
+            "STT",
+            "Tên ngành đào tạo",
+            "Chương trình đào tạo",
+            "Văn bằng",
+            "Thời gian chuẩn (Năm)",
+            "Ghi chú"
+          ],
+          "row_count": 11
+        },
+        {
+          "name": "Postgraduate (Doctoral) Programs",
+          "columns": [
+            "STT",
+            "Tên ngành đào tạo",
+            "Chương trình đào tạo",
+            "Văn bằng",
+            "Thời gian chuẩn (Năm)",
+            "Ghi chú"
+          ],
+          "row_count": 9
+        }
+      ],
+      "dialogs": [],
+      "links": [
+        {
+          "text": "https://vnu.edu.vn",
+          "href": "https://vnu.edu.vn/",
+          "is_external": true
+        },
+        {
+          "text": "Công nghệ thông tin",
+          "href": "https://uet.edu.vn/chuong-trinh-dao-tao-nganh-cong-nghe-thong-tin-4/",
+          "is_external": false
+        },
+        {
+          "text": "Công nghệ thông tin CLC",
+          "href": "https://uet.edu.vn/chuong-trinh-dao-tao-nganh-cong-nghe-thong-tin-chat-luong-cao-4/",
+          "is_external": false
+        },
+        {
+          "text": "Công nghệ thông tin định hướng thị trường Nhật Bản",
+          "href": "https://uet.edu.vn/chuong-trinh-dao-tao-nganh-cong-nghe-thong-tin-dinh-huong-thi-truong-nhat-ban-4/",
+          "is_external": false
+        },
+        {
+          "text": "Khoa học máy tính",
+          "href": "https://uet.edu.vn/chuong-trinh-dao-tao-nganh-khoa-hoc-may-tinh-4-2/",
+          "is_external": false
+        },
+        {
+          "text": "Hệ thống thông tin",
+          "href": "https://uet.edu.vn/chuong-trinh-dao-tao-nganh-thong-thong-tin-4-2/",
+          "is_external": false
+        },
+        {
+          "text": "Mạng máy tính và truyền thông dữ liệu",
+          "href": "https://uet.edu.vn/chuong-trinh-dao-tao-nganh-mang-may-tinh-va-truyen-thong-du-lieu-4-3/",
+          "is_external": false
+        },
+        {
+          "text": "Kỹ thuật máy tính",
+          "href": "https://uet.edu.vn/chuong-trinh-dao-tao-nganh-ky-thuat-may-tinh-4/",
+          "is_external": false
+        },
+        {
+          "text": "Kỹ thuật robot",
+          "href": "https://uet.edu.vn/chuong-trinh-dao-tao-nganh-ky-thuat-robot-4/",
+          "is_external": false
+        },
+        {
+          "text": "Công nghệ kỹ thuật Điện tử – viễn thông",
+          "href": "https://uet.edu.vn/chuong-trinh-dao-tao-nganh-cong-nghe-ky-thuat-dien-tu-truyen-thong-4-2/",
+          "is_external": false
+        },
+        {
+          "text": "Vật lý kỹ thuật",
+          "href": "https://uet.edu.vn/chuong-trinh-dao-tao-nganh-vat-ly-ky-thuat-4/",
+          "is_external": false
+        },
+        {
+          "text": "Kỹ thuật năng lượng",
+          "href": "https://uet.edu.vn/chuong-trinh-dao-tao-nganh-ky-thuat-nang-luong-4/",
+          "is_external": false
+        },
+        {
+          "text": "Công nghệ vật liệu và Vi điện tử",
+          "href": "https://uet.edu.vn/chuong-trinh-dao-tao-cong-nghe-vat-lieu-va-vi-dien-tu-nganh-cong-nghe-vat-lieu-4/",
+          "is_external": false
+        },
+        {
+          "text": "Công nghệ kỹ thuật Cơ điện tử",
+          "href": "https://uet.edu.vn/chuong-trinh-dao-tao-nganh-cong-nghe-ky-thuat-co-dien-tu-4/",
+          "is_external": false
+        },
+        {
+          "text": "Kỹ thuật điều khiển và tự động hóa",
+          "href": "https://uet.edu.vn/chuong-trinh-dao-tao-nganh-ky-thuat-dieu-khien-va-tu-dong-hoa-4/",
+          "is_external": false
+        },
+        {
+          "text": "Cơ kỹ thuật",
+          "href": "https://uet.edu.vn/chuong-trinh-dao-tao-nganh-co-ky-thuat-4/",
+          "is_external": false
+        },
+        {
+          "text": "Công nghệ hàng không vũ trụ",
+          "href": "https://uet.edu.vn/chuong-trinh-dao-tao-nganh-cong-nghe-hang-khong-vu-tru-4/",
+          "is_external": false
+        },
+        {
+          "text": "Công nghệ kỹ thuật xây dựng",
+          "href": "https://uet.edu.vn/chuong-trinh-dao-tao-nganh-cong-nghe-ky-thuat-xay-dung-4/",
+          "is_external": false
+        }
+      ],
+      "business_actions": [
+        "Search for content",
+        "View undergraduate programs",
+        "View postgraduate programs",
+        "View training programs",
+        "View regulations"
+      ],
+      "next_candidate_pages": [
+        "https://uet.vnu.edu.vn/gioi-thieu/",
+        "https://uet.vnu.edu.vn/dao-tao/",
+        "https://uet.vnu.edu.vn/nghien-cuu-doi-moi/",
+        "https://uet.vnu.edu.vn/tuyen-sinh/",
+        "https://uet.vnu.edu.vn/tin-tuc/",
+        "https://uet.vnu.edu.vn/doi-song-sinh-vien/",
+        "https://uet.vnu.edu.vn/",
+        "https://vnu.edu.vn/",
+        "https://uet.vnu.edu.vn/lien-he/",
+        "/chien-luoc-phat-trien/",
+        "https://jcsce.vnu.edu.vn/index.php/jcsce",
+        "https://uet.vnu.edu.vn/category/khoa-hoc-cong-nghe/hop-tac/",
+        "https://qac.uet.vnu.edu.vn/bai-viet/cong-khai-csgd",
+        "https://qac.uet.vnu.edu.vn/",
+        "https://lic.vnu.edu.vn/",
+        "/cac-ung-dung-cong-nghe-thong-tin-trong-quan-ly/",
+        "https://tuyensinh.uet.vnu.edu.vn/ban-nen-biet/thong-bao-nguong-dau-vao-va-quy-doi-diem-trong-xet-tuyen-dhcq-nam-2025/",
+        "https://www.facebook.com/groups/uet.tvts/",
+        "https://uet.edu.vn/chuong-trinh-dao-tao-nganh-cong-nghe-thong-tin-4/",
+        "https://uet.edu.vn/chuong-trinh-dao-tao-nganh-cong-nghe-thong-tin-chat-luong-cao-4/",
+        "https://uet.edu.vn/chuong-trinh-dao-tao-nganh-cong-nghe-thong-tin-dinh-huong-thi-truong-nhat-ban-4/",
+        "https://uet.edu.vn/chuong-trinh-dao-tao-nganh-khoa-hoc-may-tinh-4-2/",
+        "https://uet.edu.vn/chuong-trinh-dao-tao-nganh-thong-thong-tin-4-2/",
+        "https://uet.edu.vn/chuong-trinh-dao-tao-nganh-mang-may-tinh-va-truyen-thong-du-lieu-4-3/",
+        "https://uet.edu.vn/chuong-trinh-dao-tao-nganh-ky-thuat-may-tinh-4/",
+        "https://uet.edu.vn/chuong-trinh-dao-tao-nganh-ky-thuat-robot-4/",
+        "https://uet.edu.vn/chuong-trinh-dao-tao-nganh-cong-nghe-ky-thuat-dien-tu-truyen-thong-4-2/",
+        "https://uet.edu.vn/chuong-trinh-dao-tao-nganh-vat-ly-ky-thuat-4/",
+        "https://uet.edu.vn/chuong-trinh-dao-tao-nganh-ky-thuat-nang-luong-4/",
+        "https://uet.edu.vn/chuong-trinh-dao-tao-cong-nghe-vat-lieu-va-vi-dien-tu-nganh-cong-nghe-vat-lieu-4/",
+        "https://uet.edu.vn/chuong-trinh-dao-tao-nganh-cong-nghe-ky-thuat-co-dien-tu-4/",
+        "https://uet.edu.vn/chuong-trinh-dao-tao-nganh-ky-thuat-dieu-khien-va-tu-dong-hoa-4/",
+        "https://uet.edu.vn/chuong-trinh-dao-tao-nganh-co-ky-thuat-4/",
+        "https://uet.edu.vn/chuong-trinh-dao-tao-nganh-cong-nghe-hang-khong-vu-tru-4/",
+        "https://uet.edu.vn/chuong-trinh-dao-tao-nganh-cong-nghe-ky-thuat-xay-dung-4/"
+      ]
+    },
+    {
+      "url": "https://uet.vnu.edu.vn/nghien-cuu-doi-moi",
+      "title": "",
+      "page_type": "",
+      "breadcrumb": [],
+      "authentication": "",
+      "navigation": [],
+      "forms": [],
+      "buttons": [],
+      "inputs": [],
+      "tables": [],
+      "dialogs": [],
+      "links": [],
+      "business_actions": [],
+      "next_candidate_pages": []
+    }
+  ]
+}

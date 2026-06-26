@@ -1,0 +1,12 @@
+{
+  "base_url": "https://uet.vnu.edu.vn/",
+  "total_pages_discovered": 0,
+  "pages": [],
+  "errors": [
+    {
+      "url": "https://uet.vnu.edu.vn/",
+      "error_type": "parse_error",
+      "message": "JSON parse error: Expecting value: line 63 column 7 (char 1580)"
+    }
+  ]
+}

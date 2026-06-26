@@ -1,0 +1,509 @@
+{
+  "base_url": "https://uet.vnu.edu.vn/",
+  "total_pages_discovered": 1,
+  "pages": [
+    {
+      "url": "https://uet.vnu.edu.vn/",
+      "title": "Trang chủ - Trường Đại học Công Nghệ - Đại học Quốc Gia Hà Nội",
+      "page_type": "Landing Page",
+      "breadcrumb": [],
+      "authentication": "anonymous",
+      "language": "vi",
+      "navigation": [
+        {
+          "label": "GIỚI THIỆU",
+          "href": "https://uet.vnu.edu.vn/gioi-thieu/",
+          "section": "navbar"
+        },
+        {
+          "label": "ĐÀO TẠO",
+          "href": "https://uet.vnu.edu.vn/dao-tao/",
+          "section": "navbar"
+        },
+        {
+          "label": "KHOA HỌC CÔNG NGHỆ",
+          "href": "https://uet.vnu.edu.vn/nghien-cuu-doi-moi/",
+          "section": "navbar"
+        },
+        {
+          "label": "TUYỂN SINH",
+          "href": "https://uet.vnu.edu.vn/tuyen-sinh/",
+          "section": "navbar"
+        },
+        {
+          "label": "TIN TỨC",
+          "href": "https://uet.vnu.edu.vn/tin-tuc/",
+          "section": "navbar"
+        },
+        {
+          "label": "CÔNG TÁC NGƯỜI HỌC",
+          "href": "https://uet.vnu.edu.vn/doi-song-sinh-vien/",
+          "section": "navbar"
+        },
+        {
+          "label": "GIỚI THIỆU",
+          "href": "https://uet.vnu.edu.vn/gioi-thieu/",
+          "section": "sidebar"
+        },
+        {
+          "label": "ĐÀO TẠO",
+          "href": "https://uet.vnu.edu.vn/dao-tao/",
+          "section": "sidebar"
+        },
+        {
+          "label": "KHOA HỌC CÔNG NGHỆ",
+          "href": "https://uet.vnu.edu.vn/nghien-cuu-doi-moi/",
+          "section": "sidebar"
+        },
+        {
+          "label": "TUYỂN SINH",
+          "href": "https://uet.vnu.edu.vn/tuyen-sinh/",
+          "section": "sidebar"
+        },
+        {
+          "label": "TIN TỨC",
+          "href": "https://uet.vnu.edu.vn/tin-tuc/",
+          "section": "sidebar"
+        },
+        {
+          "label": "CÔNG TÁC NGƯỜI HỌC",
+          "href": "https://uet.vnu.edu.vn/doi-song-sinh-vien/",
+          "section": "sidebar"
+        },
+        {
+          "label": "Hồ sơ năng lực",
+          "href": "https://uet.vnu.edu.vn/#",
+          "section": "footer"
+        },
+        {
+          "label": "Liên hệ hợp tác",
+          "href": "https://uet.vnu.edu.vn/lien-he/",
+          "section": "footer"
+        },
+        {
+          "label": "Chiến lược phát triển",
+          "href": "https://uet.vnu.edu.vn/chien-luoc-phat-trien/",
+          "section": "footer"
+        },
+        {
+          "label": "Chuyên san CNTT & TT",
+          "href": "https://jcsce.vnu.edu.vn/index.php/jcsce",
+          "section": "footer"
+        },
+        {
+          "label": "Đối tác",
+          "href": "https://uet.vnu.edu.vn/category/khoa-hoc-cong-nghe/hop-tac/",
+          "section": "footer"
+        },
+        {
+          "label": "Công khai Cơ sở Giáo dục",
+          "href": "https://qac.uet.vnu.edu.vn/bai-viet/cong-khai-csgd",
+          "section": "footer"
+        },
+        {
+          "label": "Đảm bảo chất lượng",
+          "href": "https://qac.uet.vnu.edu.vn/",
+          "section": "footer"
+        },
+        {
+          "label": "Học liệu số",
+          "href": "https://lic.vnu.edu.vn/",
+          "section": "footer"
+        },
+        {
+          "label": "Ứng dụng Công nghệ thông tin",
+          "href": "https://uet.vnu.edu.vn/cac-ung-dung-cong-nghe-thong-tin-trong-quan-ly/",
+          "section": "footer"
+        },
+        {
+          "label": "Thông tin tuyển sinh",
+          "href": "https://uet.vnu.edu.vn/tuyen-sinh/",
+          "section": "footer"
+        },
+        {
+          "label": "Điểm chuẩn đầu vào",
+          "href": "https://tuyensinh.uet.vnu.edu.vn/ban-nen-biet/thong-bao-nguong-dau-vao-va-quy-doi-diem-trong-xet-tuyen-dhcq-nam-2025/",
+          "section": "footer"
+        },
+        {
+          "label": "Tư vấn tuyển sinh",
+          "href": "https://www.facebook.com/groups/uet.tvts/",
+          "section": "footer"
+        }
+      ],
+      "forms": [
+        {
+          "name": "Search Form",
+          "action": null,
+          "method": null,
+          "inputs": [
+            {
+              "label": "Tìm kiếm cho:",
+              "name": "s",
+              "type": "search",
+              "required": false,
+              "placeholder": "Nhập từ khóa ..."
+            }
+          ],
+          "validation": []
+        }
+      ],
+      "buttons": [],
+      "inputs": [],
+      "tables": [],
+      "dialogs": [],
+      "links": [
+        {
+          "text": "",
+          "href": null,
+          "is_external": false
+        },
+        {
+          "text": "",
+          "href": "https://uet.vnu.edu.vn/gioi-thieu/",
+          "is_external": false
+        },
+        {
+          "text": "",
+          "href": "https://uet.vnu.edu.vn/dao-tao/",
+          "is_external": false
+        },
+        {
+          "text": "",
+          "href": "https://uet.vnu.edu.vn/nghien-cuu-doi-moi/",
+          "is_external": false
+        },
+        {
+          "text": "",
+          "href": "https://uet.vnu.edu.vn/tuyen-sinh/",
+          "is_external": false
+        },
+        {
+          "text": "",
+          "href": "https://uet.vnu.edu.vn/tin-tuc/",
+          "is_external": false
+        },
+        {
+          "text": "",
+          "href": "https://uet.vnu.edu.vn/doi-song-sinh-vien/",
+          "is_external": false
+        },
+        {
+          "text": "",
+          "href": "https://vnu.edu.vn/",
+          "is_external": false
+        },
+        {
+          "text": "",
+          "href": "https://uet.vnu.edu.vn/",
+          "is_external": false
+        },
+        {
+          "text": "",
+          "href": "https://uet.vnu.edu.vn/en/",
+          "is_external": false
+        },
+        {
+          "text": "",
+          "href": "https://uet.vnu.edu.vn/giai-bai-toan-ket-noi-hoc-tap-tu-nhu-cau-thuc-tien-nhom-sinh-vien-uet-gianh-giai-nhat-cuoc-thi-giai-phap-cho-dai-hoc-thong-minh/",
+          "is_external": false
+        },
+        {
+          "text": "",
+          "href": "https://uet.vnu.edu.vn/vtv1-giai-bai-toan-nganh-cong-nghe-vat-lieu/",
+          "is_external": false
+        },
+        {
+          "text": "",
+          "href": "https://uet.vnu.edu.vn/toa-dam-chuyen-nganh-thiet-ke-cong-nghiep-design-thich-ung-trong-thoi-dai-cong-nghe/",
+          "is_external": false
+        },
+        {
+          "text": "",
+          "href": "https://uet.vnu.edu.vn/giang-vien-truong-dh-cong-nghe-duoc-trao-giai-thuong-nguyen-van-dao-danh-cho-tai-nang-co-hoc-tre-nam-2026/",
+          "is_external": false
+        },
+        {
+          "text": "",
+          "href": "https://uet.vnu.edu.vn/truong-dai-hoc-cong-nghe-va-tap-doan-deo-ca-ky-ket-hop-tac-chien-luoc-ve-dao-tao-tuyen-dung-trong-linh-vuc-ha-tang-giao-thong/",
+          "is_external": false
+        },
+        {
+          "text": "",
+          "href": "https://uet.vnu.edu.vn/truong-dai-hoc-cong-nghe-va-samsung-viet-nam-tiep-noi-hop-tac-boi-duong-nhan-tai-cong-nghe-cho-ky-nguyen-so/",
+          "is_external": false
+        },
+        {
+          "text": "",
+          "href": "https://uet.vnu.edu.vn/category/tin-tuc/",
+          "is_external": false
+        },
+        {
+          "text": "",
+          "href": "https://uet.vnu.edu.vn/events/hoi-nghi-sinh-vien-nghien-cuu-khoa-hoc-truong-dai-hoc-cong-nghe-nam-2026/",
+          "is_external": false
+        },
+        {
+          "text": "",
+          "href": "https://uet.nu.edu.vn/events/hoi-thao-quoc-te-thuc-day-phat-trien-the-he-tuong-lai-hop-tac-ban-dan-ha-lan-viet-nam-empowering-the-next-generation-netherlands-vietnam-semiconductor-collaboration/",
+          "is_external": false
+        },
+        {
+          "text": "",
+          "href": "https://uet.vnu.edu.vn/events/thong-cao-bao-chi-ngay-hoi-viec-lam-ket-noi-thanh-cong-uet-job-fair-2026/",
+          "is_external": false
+        },
+        {
+          "text": "",
+          "href": "https://uet.vnu.edu.vn/events/hoi-thao-quoc-te-viet-nam-lien-bang-nga-khong-gian-hoc-thuat-viet-nam-lien-bang-nga-hop-tac-giao-duc-dai-hoc-va-nghien-cuu-khoa-hoc-trong-ky-nguyen-so/",
+          "is_external": false
+        },
+        {
+          "text": "",
+          "href": "https://uet.vnu.edu.vn/events/",
+          "is_external": false
+        },
+        {
+          "text": "",
+          "href": "https://uet.vnu.edu.vn/moi-tham-dinh-gia-thiet-bi-linh-kien-2/",
+          "is_external": false
+        },
+        {
+          "text": "",
+          "href": "https://uet.vnu.edu.vn/moi-bao-gia-thue-thiet-bi-mang-va-duong-truyen-internet-phuc-vu-giang-day-hoc-tap/",
+          "is_external": false
+        },
+        {
+          "text": "",
+          "href": "https://uet.vnu.edu.vn/moi-bao-gia-thiet-bi-phuc-vu-giang-day-hoc-tap/",
+          "is_external": false
+        },
+        {
+          "text": "",
+          "href": "https://uet.vnu.edu.vn/moi-bao-gia-linh-kien-thiet-bi-phuc-vu-hoat-dong-nghien-cuu-2/",
+          "is_external": false
+        },
+        {
+          "text": "",
+          "href": "https://uet.vnu.edu.vn/tuyen-dung-chuyen-gia/",
+          "is_external": false
+        },
+        {
+          "text": "",
+          "href": "https://uet.vnu.edu.vn/thong-bao-tuyen-sinh-chuong-trinh-hoc-bong-thac-si-toan-phan-v-stt-dinh-huong-cong-nghe-ban-dan/",
+          "is_external": false
+        },
+        {
+          "text": "",
+          "href": "https://uet.vnu.edu.vn/tuyen-dung-giang-vien-hop-dong-lao-dong-nam-2026/",
+          "is_external": false
+        },
+        {
+          "text": "",
+          "href": "https://uet.vnu.edu.vn/chuong-trinh-hoc-bong-thac-si-tai-truong-dai-hoc-korea-han-quoc-do-quy-pony-chung-tai-tro-nam-2026/",
+          "is_external": false
+        },
+        {
+          "text": "",
+          "href": "https://uet.vnu.edu.vn/category/thong-bao/",
+          "is_external": false
+        },
+        {
+          "text": "",
+          "href": "https://uet-test.uet.edu.vn/category/startup-tu-uet",
+          "is_external": false
+        },
+        {
+          "text": "",
+          "href": "https://uet-test.uet.edu.vn/category/giai-thuong-khoa-hoc-quoc-gia",
+          "is_external": false
+        },
+        {
+          "text": "",
+          "href": "https://uet-test.uet.edu.vn/bai-bao-khoa-hoc/",
+          "is_external": false
+        },
+        {
+          "text": "",
+          "href": "https://uet-test.uet.edu.vn/category/khoa-hoc-cong-nghe/san-pham-khoa-hoc-cong-nghe/",
+          "is_external": false
+        },
+        {
+          "text": "",
+          "href": "https://uet.vnu.edu.vn/hanoiair-he-thong-du-bao-chat-luong-khong-khi-dau-tien-tai-viet-nam-ung-dung-tri-tu-e-nhan-tao/",
+          "is_external": false
+        },
+        {
+          "text": "",
+          "href": "https://uet.vnu.edu.vn/author/admin/",
+          "is_external": false
+        },
+        {
+          "text": "",
+          "href": "https://uet.vnu.edu.vn/2025/10/22/",
+          "is_external": false
+        },
+        {
+          "text": "",
+          "href": "https://uet.vnu.edu.vn/hanoiair-he-thong-du-bao-chat-luong-khong-khi-dau-tien-tai-viet-nam-ung-dung-tri-tu-e-nhan-tao/#respond",
+          "is_external": false
+        },
+        {
+          "text": "",
+          "href": "https://uet.vnu.edu.vn/nghien-cuu-ung-dung-tri-tue-nhan-tao-chan-doan-ung-thu-phoi-buoc-dot-pha-tu-hop-tac-truong-dai-hoc-cong-nghe-va-benh-vien-bach-mai/",
+          "is_external": false
+        },
+        {
+          "text": "",
+          "href": "https://uet.vnu.edu.vn/2025/10/06/",
+          "is_external": false
+        },
+        {
+          "text": "",
+          "href": "https://uet.vnu.edu.vn/nghien-cuu-ung-dung-tri-tue-nhan- tao-chan-doan-ung-thu-phoi-buoc-dot-pha-tu-hop-tac-truong-dai-hoc-cong-nghe-va-benh-vien-bach-mai/#respond",
+          "is_external": false
+        },
+        {
+          "text": "",
+          "href": "https://uet.vnu.edu.vn/nha-khoa-hoc-viet-phat-trien-cong-nghe-sang-loc-tre-mac-chung-kho-doc/",
+          "is_external": false
+        },
+        {
+          "text": "",
+          "href": "https://uet.vnu.edu.vn/2024/07/15/",
+          "is_external": false
+        },
+        {
+          "text": "",
+          "href": "https://uet.vnu.edu.vn/nha-khoa-hoc-viet-phat-trien-cong-nghe-sang-loc-tre-mac-chung-kho-doc/#respond",
+          "is_external": false
+        },
+        {
+          "text": "",
+          "href": "https://uet-test.uet.edu.vn/bai-bao-khoa-hoc/",
+          "is_external": false
+        },
+        {
+          "text": "",
+          "href": "https://uet.vnu.edu.vn/chuong-trinh-dao-tao-nganh-ky-thuat-nang-luong-tai-truong-dh-cong-nghe-dhqg-ha-noi-co-gi-dac-biet/",
+          "is_external": false
+        },
+        {
+          "text": "",
+          "href": "https://uet.vnu.edu.vn/mo-cong-dang-ky-ho-so-xet-tuyen-dai-hoc-chinh-quy-nam-2026/",
+          "is_external": false
+        },
+        {
+          "text": "",
+          "href": "https://uet.vnu.edu.vn/to-chuc-lop-hoc-bo-sung-kien-thuc-danh-cho-doi-tuong-du-tuyen-dao-tao-trinh-do-thac-si-nam-2026/",
+          "is_external": false
+        },
+        {
+          "text": "",
+          "href": "https://uet.vnu.edu.vn/tuyen-sinh-bac-tien-si-nam-2026/",
+          "is_external": false
+        },
+        {
+          "text": "",
+          "href": "https://uet.vnu.edu.vn/tuyen-sinh-bac-thac-si-nam-2026/",
+          "is_external": false
+        },
+        {
+          "text": "",
+          "href": "https://uet.edu.vn/dao-tao/",
+          "is_external": false
+        },
+        {
+          "text": "",
+          "href": "https://uet.vnu.edu.vn/#",
+          "is_external": false
+        },
+        {
+          "text": "",
+          "href": "https://uet.vnu.edu.vn/tuyen-sinh/",
+          "is_external": false
+        },
+        {
+          "text": "",
+          "href": "https://tuyensinh.uet.vnu.edu.vn/ban-nen-biet/thong-bao-nguong-dau-vao-va-quy-doi-diem-trong-xet-tuyen-dhcq-nam-2025/",
+          "is_external": false
+        },
+        {
+          "text": "",
+          "href": "https://www.facebook.com/groups/uet.tvts/",
+          "is_external": false
+        }
+      ],
+      "business_actions": [
+        "Navigate to different sections of the university website (About, Training, Science & Technology, Admissions, News, Student Affairs).",
+        "Change website language (Vietnamese/English).",
+        "Search for information.",
+        "Read news articles and event announcements.",
+        "View information about university achievements (startups, national science awards, international publications, typical technology products).",
+        "Access admission information for undergraduate, postgraduate, and doctoral programs.",
+        "Find suitable majors/programs.",
+        "Contact the university for consultation.",
+        "Access related academic resources (Journal of ICT, Quality Assurance Center, Digital Learning Resources).",
+        "Engage in recruitment processes (apply for expert positions, lecturer positions, scholarships).",
+        "Request price quotes for equipment/services (for suppliers/partners)."
+      ],
+      "security_components": [
+        {
+          "component_type": "Search box",
+          "description": "Allows users to search for content on the website.",
+          "location": "Top right of the page."
+        }
+      ],
+      "next_candidate_pages": [
+        "https://uet.vnu.edu.vn/gioi-thieu/",
+        "https://uet.vnu.edu.vn/dao-tao/",
+        "https://uet.vnu.edu.vn/nghien-cuu-doi-moi/",
+        "https://uet.vnu.edu.vn/tuyen-sinh/",
+        "https://uet.vnu.edu.vn/tin-tuc/",
+        "https://uet.vnu.edu.vn/doi-song-sinh-vien/",
+        "https://uet.vnu.edu.vn/en/",
+        "https://uet.vnu.edu.vn/giai-bai-toan-ket-noi-hoc-tap-tu-nhu-cau-thuc-tien-nhom-sinh-vien-uet-gianh-giai-nhat-cuoc-thi-giai-phap-cho-dai-hoc-thong-minh/",
+        "https://uet.vnu.edu.vn/vtv1-giai-bai-toan-nganh-cong-nghe-vat-lieu/",
+        "https://uet.vnu.edu.vn/toa-dam-chuyen-nganh-thiet-ke-cong-nghiep-design-thich-ung-trong-thoi-dai-cong-nghe/",
+        "https://uet.vnu.edu.vn/giang-vien-truong-dh-cong-nghe-duoc-trao-giai-thuong-nguyen-van-dao-danh-cho-tai-nang-co-hoc-tre-nam-2026/",
+        "https://uet.vnu.edu.vn/truong-dai-hoc-cong-nghe-va-tap-doan-deo-ca-ky-ket-hop-tac-chien-luoc-ve-dao-tao-tuyen-dung-trong-linh-vuc-ha-tang-giao-thong/",
+        "https://uet.vnu.edu.vn/truong-dai-hoc-cong-nghe-va-samsung-viet-nam-tiep-noi-hop-tac-boi-duong-nhan-tai-cong-nghe-cho-ky-nguyen-so/",
+        "https://uet.vnu.edu.vn/category/tin-tuc/",
+        "https://uet.vnu.edu.vn/events/hoi-nghi-sinh-vien-nghien-cuu-khoa-hoc-truong-dai-hoc-cong-nghe-nam-2026/",
+        "https://uet.vnu.edu.vn/events/hoi-thao-quoc-te-thuc-day-phat-trien-the-he-tuong-lai-hop-tac-ban-dan-ha-lan-viet-nam-empowering-the-next-generation-netherlands-vietnam-semiconductor-collaboration/",
+        "https://uet.vnu.edu.vn/events/thong-cao-bao-chi-ngay-hoi-viec-lam-ket-noi-thanh-cong-uet-job-fair-2026/",
+        "https://uet.vnu.edu.vn/events/hoi-thao-quoc-te-viet-nam-lien-bang-nga-khong-gian-hoc-thuat-viet-nam-lien-bang-nga-hop-tac-giao-duc-dai-hoc-va-nghien-cuu-khoa-hoc-trong-ky-nguyen-so/",
+        "https://uet.vnu.edu.vn/events/",
+        "https://uet.vnu.edu.vn/moi-tham-dinh-gia-thiet-bi-linh-kien-2/",
+        "https://uet.vnu.edu.vn/moi-bao-gia-thue-thiet-bi-mang-va-duong-truyen-internet-phuc-vu-giang-day-hoc-tap/",
+        "https://uet.vnu.edu.vn/moi-bao-gia-thiet-bi-phuc-vu-giang-day-hoc-tap/",
+        "https://uet.vnu.edu.vn/moi-bao-gia-linh-kien-thiet-bi-phuc-vu-hoat-dong-nghien-cuu-2/",
+        "https://uet.vnu.edu.vn/tuyen-dung-chuyen-gia/",
+        "https://uet.vnu.edu.vn/thong-bao-tuyen-sinh-chuong-trinh-hoc-bong-thac-si-toan-phan-v-stt-dinh-huong-cong-nghe-ban-dan/",
+        "https://uet.vnu.edu.vn/tuyen-dung-giang-vien-hop-dong-lao-dong-nam-2026/",
+        "https://uet.vnu.edu.vn/chuong-trinh-hoc-bong-thac-si-tai-truong-dai-hoc-korea-han-quoc-do-quy-pony-chung-tai-tro-nam-2026/",
+        "https://uet.vnu.edu.vn/category/thong-bao/",
+        "https://uet.vnu.edu.vn/hanoiair-he-thong-du-bao-chat-luong-khong-khi-dau-tien-tai-viet-nam-ung-dung-tri-tu-e-nhan-tao/",
+        "https://uet.vnu.edu.vn/author/admin/",
+        "https://uet.vnu.edu.vn/2025/10/22/",
+        "https://uet.vnu.edu.vn/hanoiair-he-thong-du-bao-chat-luong-khong-khi-dau-tien-tai-viet-nam-ung-dung-tri-tu-e-nhan-tao/#respond",
+        "https://uet.vnu.edu.vn/nghien-cuu-ung-dung-tri-tu-e-nhan-tao-chan-doan-ung-thu-phoi-buoc-dot-pha-tu-hop-tac-truong-dai-hoc-cong-nghe-va-benh-vien-bach-mai/",
+        "https://uet.vnu.edu.vn/2025/10/06/",
+        "https://uet.vnu.edu.vn/nghien-cuu-ung-dung-tri-tu-e-nhan-tao-chan-doan-ung-thu-phoi-buoc-dot-pha-tu-hop-tac-truong-dai-hoc-cong-nghe-va-benh-vien-bach-mai/#respond",
+        "https://uet.vnu.edu.vn/nha-khoa-hoc-viet-phat-trien-cong-nghe-sang-loc-tre-mac-chung-kho-doc/",
+        "https://uet.vnu.edu.vn/2024/07/15/",
+        "https://uet.vnu.edu.vn/nha-khoa-hoc-viet-phat-trien-cong-nghe-sang-loc-tre-mac-chung-kho-doc/#respond",
+        "https://uet.vnu.edu.vn/chuong-trinh-dao-tao-nganh-ky-thuat-nang-luong-tai-truong-dh-cong-nghe-dhqg-ha-noi-co-gi-dac-biet/",
+        "https://uet.vnu.edu.vn/mo-cong-dang-ky-ho-so-xet-tuyen-dai-hoc-chinh-quy-nam-2026/",
+        "https://uet.vnu.edu.vn/to-chuc-lop-hoc-bo-sung-kien-thuc-danh-cho-doi-tuong-du-tuyen-dao-tao-trinh-do-thac-si-nam-2026/",
+        "https://uet.vnu.edu.vn/tuyen-sinh-bac-tien-si-nam-2026/",
+        "https://uet.vnu.edu.vn/tuyen-sinh-bac-thac-si-nam-2026/",
+        "https://uet.vnu.edu.vn/lien-he/",
+        "https://uet.vnu.edu.vn/category/khoa-hoc-cong-nghe/hop-tac/",
+        "https://uet.vnu.edu.vn/cac-ung-dung-cong-nghe-thong-tin-trong-quan-ly/",
+        "https://uet.vnu.edu.vn/tuyen-sinh/"
+      ]
+    }
+  ],
+  "errors": []
+}

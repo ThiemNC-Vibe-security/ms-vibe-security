@@ -1,0 +1,12 @@
+{
+  "base_url": "https://vc-awg-demo-final-code.vercel.app/",
+  "total_pages_discovered": 0,
+  "pages": [],
+  "errors": [
+    {
+      "url": "https://vc-awg-demo-final-code.vercel.app/",
+      "error_type": "parse_error",
+      "message": "JSON parse error: Unterminated string starting at: line 1 column 9 (char 8)"
+    }
+  ]
+}

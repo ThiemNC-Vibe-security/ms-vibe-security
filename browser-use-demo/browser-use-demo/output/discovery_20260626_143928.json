@@ -1,0 +1,114 @@
+{
+  "base_url": "https://vc-awg-demo-final-code.vercel.app/",
+  "total_pages_discovered": 1,
+  "pages": [
+    {
+      "url": "https://vc-awg-demo-final-code.vercel.app/",
+      "title": "Welcome to Personal Financial Management",
+      "page_type": "Homepage",
+      "breadcrumb": [],
+      "authentication": "Unauthenticated",
+      "language": "en",
+      "navigation": [
+        {
+          "label": "Personal Financial Management",
+          "href": "https://vc-awg-demo-final-code.vercel.app/",
+          "section": "navbar"
+        },
+        {
+          "label": "Log in",
+          "href": "https://vc-awg-demo-final-code.vercel.app/login",
+          "section": "navbar"
+        },
+        {
+          "label": "Register",
+          "href": "https://vc-awg-demo-final-code.vercel.app/register",
+          "section": "navbar"
+        }
+      ],
+      "forms": [],
+      "buttons": [
+        {
+          "label": "Toggle theme",
+          "type": "button",
+          "business_meaning": "Toggles the website theme between light and dark."
+        },
+        {
+          "label": "Log in",
+          "type": "button",
+          "business_meaning": "Navigates to the login page."
+        },
+        {
+          "label": "Register",
+          "type": "button",
+          "business_meaning": "Navigates to the registration page."
+        }
+      ],
+      "inputs": [],
+      "tables": [],
+      "dialogs": [],
+      "links": [
+        {
+          "text": "",
+          "href": "https://vc-awg-demo-final-code.vercel.app/",
+          "is_external": false
+        },
+        {
+          "text": "",
+          "href": "https://vc-awg-demo-final-code.vercel.app/login",
+          "is_external": false
+        },
+        {
+          "text": "",
+          "href": "https://vc-awg-demo-final-code.vercel.app/register",
+          "is_external": false
+        },
+        {
+          "text": "",
+          "href": "https://vc-awg-demo-final-code.vercel.app/login",
+          "is_external": false
+        },
+        {
+          "text": "",
+          "href": "https://vc-awg-demo-final-code.vercel.app/register",
+          "is_external": false
+        }
+      ],
+      "business_actions": [
+        "Log in to an existing account",
+        "Register for a new account",
+        "Track bank accounts",
+        "Record and categorize transactions",
+        "Set and track financial goals"
+      ],
+      "security_components": [
+        {
+          "component_type": "login_link",
+          "description": "Link to login page",
+          "location": "navbar"
+        },
+        {
+          "component_type": "registration_link",
+          "description": "Link to registration page",
+          "location": "navbar"
+        },
+        {
+          "component_type": "login_button",
+          "description": "Button to login page",
+          "location": "main content"
+        },
+        {
+          "component_type": "registration_button",
+          "description": "Button to registration page",
+          "location": "main content"
+        }
+      ],
+      "next_candidate_pages": [
+        "https://vc-awg-demo-final-code.vercel.app/",
+        "https://vc-awg-demo-final-code.vercel.app/login",
+        "https://vc-awg-demo-final-code.vercel.app/register"
+      ]
+    }
+  ],
+  "errors": []
+}

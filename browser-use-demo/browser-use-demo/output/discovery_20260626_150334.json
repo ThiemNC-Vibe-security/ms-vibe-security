@@ -1,0 +1,12 @@
+{
+  "base_url": "https://vc-awg-demo-final-code.vercel.app/transactions",
+  "total_pages_discovered": 0,
+  "pages": [],
+  "errors": [
+    {
+      "url": "https://vc-awg-demo-final-code.vercel.app/transactions",
+      "error_type": "crash",
+      "message": "ValidationError: 2 validation errors for PageDiscoveryResult\nnext_candidate_pages.0\n  Input should be a valid string [type=string_type, input_value={'label': 'Register', 'href': '/register'}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.12/v/string_type\nnext_candidate_pages.1\n  Input should be a valid string [type=string_type, input_value={'label': 'Forgot Passwor...ef': '/forgot-password'}, input_type=dict]\n    For further information visit https://errors.pydantic.dev/2.12/v/string_type"
+    }
+  ]
+}
