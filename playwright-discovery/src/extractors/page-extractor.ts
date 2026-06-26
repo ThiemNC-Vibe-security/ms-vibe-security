@@ -69,8 +69,13 @@ export async function extractPage(
     }
   }
 
-  // Run mass extraction in the browser
-  const raw = await pwPage.evaluate(extractRawPageSnapshot);
+  // Run mass extraction in the browser.
+  // tsx/esbuild injects `__name(fn, "name")` wrappers that don't exist in browser.
+  // We inject a shim for __name before evaluating the function string.
+  const fnStr = extractRawPageSnapshot.toString();
+  const raw: import('./types.js').RawPageSnapshot = await pwPage.evaluate(
+    `(function() { var __name = function(fn, n) { return fn; }; return (${fnStr})(); })()`,
+  );
 
   // Transform raw → typed (with selectors generated Node-side)
   const forms = buildForms(raw.forms);

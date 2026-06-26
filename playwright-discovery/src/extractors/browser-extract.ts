@@ -10,6 +10,10 @@
  *
  * The function returns a JSON-serializable RawPageSnapshot.
  * Selector resolution happens Node-side, see transformer.ts.
+ *
+ * IMPORTANT: All inner helpers MUST be arrow functions (not function declarations)
+ * to prevent tsx/esbuild from injecting `__name` wrappers that don't exist
+ * in the browser context.
  */
 
 import type {
@@ -32,7 +36,7 @@ import type {
 export const extractRawPageSnapshot = (): RawPageSnapshot => {
   /* ---------- helpers ---------- */
 
-  function implicitRole(el: Element): string | null {
+  const implicitRole = (el: Element): string | null => {
     const tag = el.tagName.toLowerCase();
     switch (tag) {
       case 'a':
@@ -68,15 +72,15 @@ export const extractRawPageSnapshot = (): RawPageSnapshot => {
       default:
         return null;
     }
-  }
+  };
 
-  function cssEscape(value: string): string {
+  const cssEscape = (value: string): string => {
     const css = (globalThis as { CSS?: { escape?: (s: string) => string } }).CSS;
     if (css && typeof css.escape === 'function') return css.escape(value);
     return value.replace(/(["\\#.:>+~*=^$|()[\]{}/])/g, '\\$1');
-  }
+  };
 
-  function findLabel(el: Element): string | null {
+  const findLabel = (el: Element): string | null => {
     const id = el.getAttribute('id');
     if (id) {
       const lbl = document.querySelector(`label[for="${cssEscape(id)}"]`);
@@ -100,9 +104,9 @@ export const extractRawPageSnapshot = (): RawPageSnapshot => {
       if (parts.length > 0) return parts.join(' ');
     }
     return null;
-  }
+  };
 
-  function buildCssPath(el: Element): string {
+  const buildCssPath = (el: Element): string => {
     if (el === document.body) return 'body';
     const segments: string[] = [];
     let current: Element | null = el;
@@ -126,9 +130,9 @@ export const extractRawPageSnapshot = (): RawPageSnapshot => {
       current = current.parentElement;
     }
     return segments.join(' > ') || el.tagName.toLowerCase();
-  }
+  };
 
-  function extractInfo(el: Element) {
+  const extractInfo = (el: Element) => {
     const tag = el.tagName.toLowerCase();
     const id = el.getAttribute('id');
     const name = el.getAttribute('name');
@@ -183,16 +187,16 @@ export const extractRawPageSnapshot = (): RawPageSnapshot => {
       cssPath,
       isUnique,
     };
-  }
+  };
 
-  function isVisible(el: Element): boolean {
+  const isVisible = (el: Element): boolean => {
     const style = window.getComputedStyle(el as HTMLElement);
     if (style.display === 'none' || style.visibility === 'hidden') return false;
     const rect = (el as HTMLElement).getBoundingClientRect();
     return rect.width > 0 && rect.height > 0;
-  }
+  };
 
-  function detectCsrf(form: HTMLFormElement): { has: boolean; name: string | null } {
+  const detectCsrf = (form: HTMLFormElement): { has: boolean; name: string | null } => {
     const hidden = Array.from(form.querySelectorAll('input[type="hidden"]'));
     const csrfPatterns = /(csrf|xsrf|authenticity[_-]?token|_token)/i;
     for (const inp of hidden) {
@@ -200,9 +204,9 @@ export const extractRawPageSnapshot = (): RawPageSnapshot => {
       if (n && csrfPatterns.test(n)) return { has: true, name: n };
     }
     return { has: false, name: null };
-  }
+  };
 
-  function classifyButtonType(el: Element): string {
+  const classifyButtonType = (el: Element): string => {
     const tag = el.tagName.toLowerCase();
     if (tag === 'a') return 'link-button';
     if (tag === 'input') {
@@ -210,32 +214,32 @@ export const extractRawPageSnapshot = (): RawPageSnapshot => {
       return t || 'button';
     }
     return (el.getAttribute('type') || 'button').toLowerCase();
-  }
+  };
 
-  function findSubmitButton(form: HTMLFormElement): Element | null {
+  const findSubmitButton = (form: HTMLFormElement): Element | null => {
     const explicit = form.querySelector(
       'button[type="submit"], input[type="submit"], input[type="image"]',
     );
     if (explicit) return explicit;
     const button = form.querySelector('button:not([type])');
     return button;
-  }
+  };
 
-  function isExternalLink(href: string): boolean {
+  const isExternalLink = (href: string): boolean => {
     try {
       const target = new URL(href, location.href);
       return target.host !== location.host;
     } catch {
       return false;
     }
-  }
+  };
 
-  function navItemsFrom(container: Element): Array<{ info: ReturnType<typeof extractInfo>; href: string | null }> {
+  const navItemsFrom = (container: Element): Array<{ info: ReturnType<typeof extractInfo>; href: string | null }> => {
     const anchors = Array.from(container.querySelectorAll('a[href]')) as HTMLAnchorElement[];
     return anchors
       .filter(isVisible)
       .map((a) => ({ info: extractInfo(a), href: a.getAttribute('href') }));
-  }
+  };
 
   /* ---------- extract ---------- */
 
