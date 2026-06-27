@@ -2,7 +2,10 @@ node_modules/
 dist/
 .env
 .env.local
-output/
+/output/**/*.json
+/output/**/*.png
+/output/**/*.jpg
+/output/**/*.har
 *.log
 .DS_Store
 playwright-report/
