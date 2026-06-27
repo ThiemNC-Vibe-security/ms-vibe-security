@@ -1,8 +1,37 @@
+# Secrets — never commit (use .env.example as templates)
+.env
+.env.local
+.env.*.local
+*.env
+
+# Auth state / session captures (may contain tokens, cookies, PII)
+auth-state.json
+storage-state.json
+**/auth-state*.json
+
+# Dependencies
+node_modules/
+
+# Build outputs
+dist/
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
 
 # Playwright
-*/node_modules/
 */test-results/
 */playwright-report/
 */blob-report/
 */playwright/.cache/
 */playwright/.auth/
+
+# Caches
+.cache/
+.parcel-cache/
+.next/
+.nuxt/

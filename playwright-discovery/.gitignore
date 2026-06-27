@@ -2,6 +2,7 @@ node_modules/
 dist/
 .env
 .env.local
+auth-state.json
 /output/**/*.json
 /output/**/*.png
 /output/**/*.jpg
