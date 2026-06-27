@@ -1,0 +1,30 @@
+id: sensitive_data_in_url
+name: Sensitive Data Exposed in URL
+owasp:
+  - A04:2025
+  - A02:2021
+cwe:
+  - CWE-598
+  - CWE-200
+asvs:
+  - V8.3.1
+  - V8.3.2
+applies_to:
+  - login_form
+  - password_recovery
+  - any_page
+payloads: []
+detection:
+  - password_or_token_sent_as_query_parameter
+  - session_id_visible_in_url
+  - url_contains_authorization_header_value
+test_template_hints:
+  - submit_login_or_password_recovery_form
+  - capture_request_url_after_submission
+  - assert_request_method_is_post_not_get
+  - assert_url_query_string_does_not_contain_password
+  - assert_url_query_string_does_not_contain_token_or_secret
+description: |
+  Credentials, tokens or session IDs must never appear in URLs (they leak
+  to logs, referrers and proxies). Test submits the form and inspects the
+  resulting request URL.

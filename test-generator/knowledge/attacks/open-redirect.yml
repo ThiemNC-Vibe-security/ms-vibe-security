@@ -1,17 +1,27 @@
 id: open_redirect
 name: Open Redirect
 owasp:
+  - A01:2025
   - A01:2021
+cwe:
+  - CWE-601
+asvs:
+  - V5.1.5
+  - V13.2.5
 applies_to:
   - url_param
+  - redirect_param
 payloads:
   - "https://evil.example.com"
   - "//evil.example.com"
   - "/\\evil.example.com"
   - "javascript:alert(1)"
+  - "data:text/html,<script>alert(1)</script>"
+  - "http://127.0.0.1"
 detection:
   - response_redirects_to_external_host
   - response_redirects_to_javascript_uri
+  - client_side_redirect_via_location_assignment
 test_template_hints:
   - identify_redirect_param_in_url
   - navigate_with_payload_substituted_for_redirect_param

@@ -1,7 +1,16 @@
 id: broken_auth
 name: Broken Authentication
 owasp:
+  - A07:2025
   - A07:2021
+cwe:
+  - CWE-287
+  - CWE-521
+  - CWE-204
+asvs:
+  - V2.1.1
+  - V2.1.2
+  - V2.1.5
 applies_to:
   - login_form
   - password_field
@@ -11,10 +20,12 @@ payloads:
   - "admin"
   - "password"
   - "123456"
+  - "qwerty"
 detection:
   - login_succeeds_with_weak_credentials
   - login_succeeds_with_empty_password
   - successful_login_indicator_after_invalid_attempt
+  - error_message_distinguishes_unknown_user_vs_wrong_password
 test_template_hints:
   - fill_username_with_real_or_dummy_value
   - try_each_payload_as_password

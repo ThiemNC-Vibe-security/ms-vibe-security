@@ -1,0 +1,30 @@
+id: mixed_content
+name: HTTPS Downgrade and Mixed Content
+owasp:
+  - A04:2025
+  - A02:2021
+cwe:
+  - CWE-319
+  - CWE-311
+asvs:
+  - V9.1.1
+  - V9.1.2
+  - V13.4.2
+applies_to:
+  - any_page
+payloads: []
+detection:
+  - page_loaded_over_http_when_https_available
+  - http_resources_referenced_from_https_page
+  - missing_strict_transport_security_header
+  - http_to_https_redirect_does_not_strip_credentials
+test_template_hints:
+  - navigate_to_target_page_using_https
+  - intercept_all_requests_during_navigation
+  - assert_no_request_url_starts_with_http_excluding_data_or_blob
+  - assert_response_headers_contain_strict_transport_security
+  - if_http_url_provided_assert_immediate_redirect_to_https
+description: |
+  Pages served over HTTPS must not request resources or submit forms over
+  plain HTTP. The test loads the page, observes all sub-resources, and
+  asserts everything stays on HTTPS plus HSTS is present.

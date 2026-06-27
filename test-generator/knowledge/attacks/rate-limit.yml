@@ -1,8 +1,17 @@
 id: rate_limit
 name: Missing Rate Limit
 owasp:
+  - A07:2025
   - A04:2021
   - A07:2021
+cwe:
+  - CWE-307
+  - CWE-770
+  - CWE-799
+asvs:
+  - V2.2.1
+  - V2.2.2
+  - V11.1.4
 applies_to:
   - login_form
   - registration_form
@@ -13,11 +22,13 @@ payloads: []
 detection:
   - many_requests_accepted_without_throttling
   - server_does_not_return_429
+  - no_account_lockout_after_repeated_failures
 test_template_hints:
   - submit_form_repeatedly_in_quick_succession
   - submit_at_least_15_attempts_within_30_seconds
   - record_response_status_of_each_attempt
   - assert_at_least_one_response_is_429_or_blocked
+  - keep_total_runtime_under_30s
 description: |
   Asserts the endpoint enforces rate limiting on repeated submissions.
   Without rate limit, the form is vulnerable to brute force / spam.

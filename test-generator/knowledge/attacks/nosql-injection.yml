@@ -1,0 +1,35 @@
+id: nosql_injection
+name: NoSQL Injection
+owasp:
+  - A05:2025
+  - A03:2021
+cwe:
+  - CWE-943
+  - CWE-89
+asvs:
+  - V5.3.4
+  - V5.3.5
+applies_to:
+  - login_form
+  - search_box
+  - generic_form
+  - url_param
+payloads:
+  - "{\"$ne\": null}"
+  - "{\"$gt\": \"\"}"
+  - "[$ne]=1"
+  - "'||'1'=='1"
+  - "{\"$where\": \"sleep(5000)\"}"
+detection:
+  - login_succeeds_with_operator_payload
+  - response_status_changes_for_nosql_operator
+  - response_time_above_threshold:5000
+test_template_hints:
+  - inject_payloads_into_text_inputs_separately
+  - submit_form_and_observe_status_and_body
+  - assert_login_did_not_succeed_with_operator_payload
+  - assert_response_status_is_not_200_for_authenticated_resource
+description: |
+  Targets MongoDB/CouchDB-style stacks where operators such as $ne, $gt and
+  $where can bypass authentication or extract data when input is parsed as
+  JSON rather than a string.

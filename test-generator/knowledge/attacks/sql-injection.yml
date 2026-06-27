@@ -1,7 +1,14 @@
 id: sql_injection
 name: SQL Injection
 owasp:
+  - A05:2025
   - A03:2021
+cwe:
+  - CWE-89
+  - CWE-564
+asvs:
+  - V5.3.4
+  - V5.3.5
 applies_to:
   - login_form
   - registration_form
@@ -17,11 +24,13 @@ payloads:
   - "1; SELECT pg_sleep(5)--"
   - "1 UNION SELECT NULL--"
   - "%27%20OR%201=1--"
+  - "\" OR \"\"=\""
 detection:
   - response_contains_sql_error
-  - response_contains_keywords:["syntax","mysql","postgres","sqlite","ORA-","ODBC","SQLSTATE"]
+  - response_contains_keywords:["syntax","mysql","postgres","sqlite","ORA-","ODBC","SQLSTATE","MariaDB","pg_"]
   - response_time_above_threshold:5000
   - http_500_response
+  - response_status_changes_with_injected_payload
 test_template_hints:
   - inject_each_payload_into_target_input_separately
   - submit_form_and_wait_for_response
@@ -30,5 +39,5 @@ test_template_hints:
   - assert_response_time_under_3s
   - do_not_chain_payloads_in_one_test
 description: |
-  Tests for classic and time-based SQL injection on text inputs that may be
-  used in backend SQL queries (login fields, search boxes, URL parameters).
+  Tests for classic and time-based SQL injection on text inputs that may
+  flow into backend SQL queries (login, search, URL parameters).

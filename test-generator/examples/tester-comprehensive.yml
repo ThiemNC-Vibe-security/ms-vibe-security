@@ -1,0 +1,78 @@
+# Comprehensive tester requirement showcasing the full 2025 knowledge base.
+#
+# This config asks the planner to spread the test budget across every OWASP
+# Top 10:2025 category that the black-box pipeline can cover. Useful as a
+# baseline scan for a new target application.
+#
+# Run:
+#   npm run dev -- run \
+#     --tester examples/tester-comprehensive.yml \
+#     --discovery ../playwright-discovery/output/discovery_latest.json
+
+target_discovery: ../playwright-discovery/output/discovery_latest.json
+
+scope:
+  # Target every interactive page type — leave empty to scan everything.
+  include_page_types: []
+  exclude_pages:
+    - /logout
+    - /api/internal/*
+  include_urls: []
+
+priorities:
+  # HIGH — exploitable, well-understood injection + access-control issues.
+  # These map to OWASP A01:2025, A05:2025, A07:2025.
+  high:
+    - sql_injection
+    - nosql_injection
+    - xss_reflected
+    - xss_stored
+    - xss_dom
+    - command_injection
+    - idor
+    - path_traversal
+    - ssrf
+    - open_redirect
+    - broken_auth
+    - default_credentials
+
+  # MEDIUM — auth hardening + misconfiguration. Lower exploitability but
+  # still relevant for any production app.
+  medium:
+    - csrf
+    - session_fixation
+    - session_cookie_flags
+    - jwt_vulns
+    - weak_password_policy
+    - rate_limit
+    - security_headers_missing
+    - cors_misconfig
+    - clickjacking
+    - mixed_content
+    - sensitive_data_in_url
+
+  # LOW — defense-in-depth and observability. Stack traces, templating.
+  low:
+    - ssti
+    - stack_trace_leak
+
+limits:
+  # Budget. The planner will allocate within these caps high-first.
+  max_tests: 80
+  max_tests_per_page: 8
+
+test_config:
+  browsers:
+    - chromium
+  parallel: 4
+  base_url: https://target.example.com
+
+credentials:
+  # For attacks that need an authenticated session (IDOR, JWT inspection,
+  # session_fixation, session_cookie_flags) — leave null for unauth scan.
+  valid:
+    user: ${TEST_USER}
+    pass: ${TEST_PASSWORD}
+  invalid:
+    user: ${INVALID_USER}
+    pass: ${INVALID_PASSWORD}

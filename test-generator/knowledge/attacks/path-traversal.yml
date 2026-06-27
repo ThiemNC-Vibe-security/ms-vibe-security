@@ -1,0 +1,36 @@
+id: path_traversal
+name: Path Traversal
+owasp:
+  - A01:2025
+  - A01:2021
+cwe:
+  - CWE-22
+  - CWE-23
+asvs:
+  - V12.3.1
+  - V12.3.2
+  - V12.3.4
+applies_to:
+  - url_param
+  - file_path_param
+  - download_param
+payloads:
+  - "../../../../etc/passwd"
+  - "..\\..\\..\\..\\windows\\win.ini"
+  - "%2e%2e%2f%2e%2e%2fetc%2fpasswd"
+  - "..%252f..%252fetc%252fpasswd"
+  - "....//....//etc/passwd"
+detection:
+  - response_contains_passwd_file_contents
+  - response_contains_windows_ini_markers
+  - response_status_200_for_traversal_payload
+test_template_hints:
+  - identify_file_or_path_param_in_url
+  - substitute_each_payload_for_param_value
+  - assert_response_does_not_contain_root:x:0:0
+  - assert_response_does_not_contain_for_16_bit_app_support
+  - assert_response_status_is_not_200_with_file_content
+description: |
+  Path traversal lets attackers escape an intended directory by supplying
+  ../ sequences. The test substitutes path-traversal payloads into URL
+  parameters and asserts the response does not leak local file content.

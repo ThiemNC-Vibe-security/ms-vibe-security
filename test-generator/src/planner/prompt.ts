@@ -16,6 +16,8 @@ export interface KnowledgeIndexItem {
   id: string;
   name: string;
   owasp: string[];
+  cwe: string[];
+  asvs: string[];
   applies_to: string[];
 }
 
@@ -24,6 +26,8 @@ export function buildKnowledgeIndex(kb: KnowledgeBase): KnowledgeIndexItem[] {
     id: a.id,
     name: a.name,
     owasp: a.owasp,
+    cwe: a.cwe,
+    asvs: a.asvs,
     applies_to: a.applies_to,
   }));
 }
@@ -58,7 +62,11 @@ ${JSON.stringify(knowledgeIndex, null, 2)}
 ================ RULES ================
 1. Pick attacks only from the KNOWLEDGE INDEX. Use the literal attack_id values.
 2. Pick pages only from the DISCOVERY SUMMARY. Use the literal page_id values.
-3. For each test case, the attack's applies_to must overlap with the page's security_components.type OR with the page's url_parameter applicable_attacks.
+3. For each test case, AT LEAST ONE of these must hold:
+   a) The attack's applies_to contains "any_page" — page-level checks (security headers, cookie flags, CORS, clickjacking, mixed content). These always match regardless of components.
+   b) The attack's applies_to overlaps with one of the page's security_components.type.
+   c) The attack's id appears in any of the page's url_parameters[].applicable_attacks list, OR the attack's applies_to contains "url_param".
+   For (a), only target pages that the tester actually wants in scope — don't generate header checks for every single page; sample 1-3 representative pages instead.
 4. Respect tester scope:
    - If scope.include_page_types is non-empty, only target pages whose page_type is in it.
    - Skip any page whose url matches scope.exclude_pages (treat \`*\` as wildcard segment).

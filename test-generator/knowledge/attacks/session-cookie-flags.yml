@@ -1,0 +1,34 @@
+id: session_cookie_flags
+name: Insecure Session Cookie Flags
+owasp:
+  - A07:2025
+  - A07:2021
+  - A05:2021
+cwe:
+  - CWE-614
+  - CWE-1004
+  - CWE-1275
+asvs:
+  - V3.4.1
+  - V3.4.2
+  - V3.4.3
+applies_to:
+  - any_page
+  - login_form
+payloads: []
+detection:
+  - session_cookie_missing_httpOnly
+  - session_cookie_missing_secure
+  - session_cookie_missing_or_lax_samesite_on_auth_cookies
+  - session_cookie_set_over_plain_http
+test_template_hints:
+  - perform_login_or_visit_authenticated_page
+  - read_all_cookies_via_context_cookies
+  - filter_likely_session_cookies_by_name_pattern_session_auth_jwt_token
+  - assert_each_session_cookie_has_httpOnly_true
+  - assert_each_session_cookie_has_secure_true_when_target_is_https
+  - assert_samesite_is_strict_or_lax_for_auth_cookies
+description: |
+  Session cookies must be flagged HttpOnly (no JS access), Secure (HTTPS
+  only) and SameSite (CSRF defence). This test inspects the cookies set
+  after authentication or on any page that issues them.

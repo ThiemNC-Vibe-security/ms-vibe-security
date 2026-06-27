@@ -1,0 +1,35 @@
+id: ssti
+name: Server-Side Template Injection
+owasp:
+  - A05:2025
+  - A03:2021
+cwe:
+  - CWE-1336
+  - CWE-94
+asvs:
+  - V5.2.5
+  - V5.3.8
+applies_to:
+  - search_box
+  - generic_form
+  - url_param
+payloads:
+  - "{{7*7}}"
+  - "${7*7}"
+  - "<%= 7*7 %>"
+  - "#{7*7}"
+  - "{{config}}"
+  - "{{''.__class__.__mro__[1].__subclasses__()}}"
+detection:
+  - response_contains_evaluated_expression_49
+  - response_contains_class_or_config_keywords
+  - response_5xx_for_template_payload
+test_template_hints:
+  - inject_each_payload_into_text_input_or_url_param
+  - submit_form_or_navigate
+  - assert_response_does_not_contain_literal_49
+  - assert_response_does_not_leak_class_or_config_metadata
+description: |
+  SSTI happens when user input is concatenated into a server-side template
+  string (Jinja, Twig, ERB, Freemarker, Velocity). Detection relies on
+  arithmetic evaluation or leaked class metadata.

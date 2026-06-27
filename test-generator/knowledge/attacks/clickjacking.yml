@@ -1,0 +1,25 @@
+id: clickjacking
+name: Click-Jacking via Missing Frame Protection
+owasp:
+  - A02:2025
+  - A05:2021
+cwe:
+  - CWE-1021
+asvs:
+  - V13.4.4
+applies_to:
+  - any_page
+payloads: []
+detection:
+  - missing_x_frame_options_header
+  - csp_does_not_contain_frame_ancestors_self
+  - page_renders_inside_a_hostile_iframe
+test_template_hints:
+  - navigate_to_target_page_and_capture_response_headers
+  - check_x_frame_options_value_is_DENY_or_SAMEORIGIN
+  - or_check_csp_frame_ancestors_directive_restricts_origin
+  - optionally_create_data_url_with_iframe_pointing_to_target_and_assert_blocked
+description: |
+  Verifies the target page cannot be embedded in a third-party iframe.
+  Either X-Frame-Options must be DENY/SAMEORIGIN or Content-Security-Policy
+  must contain a restrictive frame-ancestors directive.

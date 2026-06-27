@@ -17,6 +17,8 @@ export const KnowledgeAttackSchema = z.object({
   id: z.string().min(1),
   name: z.string().min(1),
   owasp: z.array(z.string()).default([]),
+  cwe: z.array(z.string()).default([]),
+  asvs: z.array(z.string()).default([]),
   applies_to: z.array(z.string()).min(1),
   payloads: z.array(z.string()).default([]),
   detection: z.array(z.string()).default([]),

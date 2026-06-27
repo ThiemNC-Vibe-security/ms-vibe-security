@@ -1,0 +1,36 @@
+id: xss_dom
+name: DOM-based Cross-Site Scripting
+owasp:
+  - A05:2025
+  - A03:2021
+cwe:
+  - CWE-79
+  - CWE-87
+asvs:
+  - V1.2.5
+  - V5.3.3
+  - V5.3.6
+applies_to:
+  - url_param
+  - hash_fragment
+  - search_box
+  - generic_form
+payloads:
+  - "<img src=x onerror=alert(1)>"
+  - "javascript:alert(1)"
+  - "#<script>alert(1)</script>"
+  - "<svg/onload=alert(1)>"
+detection:
+  - payload_flows_to_client_side_sink_innerHTML_or_eval
+  - dialog_appears_after_route_change
+  - hash_or_query_param_reflected_into_dom_unescaped
+test_template_hints:
+  - navigate_with_payload_in_url_query_or_hash
+  - listen_for_dialog_event_and_dismiss
+  - inspect_dom_after_navigation_for_unescaped_payload
+  - assert_no_dialog_event_fired
+  - check_window_location_hash_handling_via_evaluate
+description: |
+  DOM XSS happens when client-side JavaScript reads attacker-controlled data
+  (location.hash, location.search) and passes it to a dangerous sink such
+  as innerHTML, document.write, or eval, without escaping.

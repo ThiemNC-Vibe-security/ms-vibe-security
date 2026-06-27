@@ -1,0 +1,28 @@
+id: session_fixation
+name: Session Fixation
+owasp:
+  - A07:2025
+  - A07:2021
+cwe:
+  - CWE-384
+asvs:
+  - V3.2.1
+  - V3.2.2
+  - V3.3.1
+applies_to:
+  - login_form
+payloads: []
+detection:
+  - session_cookie_not_rotated_after_login
+  - same_session_id_before_and_after_authentication
+  - logout_does_not_invalidate_server_side_session
+test_template_hints:
+  - capture_session_cookie_value_before_login_anonymous_visit
+  - perform_login_with_valid_credentials_if_available
+  - capture_session_cookie_value_after_login
+  - assert_session_cookie_value_changed_after_authentication
+  - optionally_logout_then_assert_old_cookie_value_is_rejected
+description: |
+  After authentication, the server must rotate the session identifier. This
+  test compares the session cookie value before and after login and asserts
+  they differ.

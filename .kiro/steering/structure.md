@@ -60,6 +60,7 @@ ms-vibe-testing/
 - **Layered extraction**: browser-context code (page.evaluate) is self-contained — no external imports allowed inside evaluate functions
 - **Selector priority**: `data-testid > role > label > placeholder > text > id > name > CSS`
 - **Error handling**: Per-page retry with backoff; failures are non-fatal and recorded in output
+- **Knowledge base**: test-generator/knowledge/attacks/*.yml is the security ground truth, aligned with OWASP Top 10:2025, ASVS v5.0, and CWE. Component types emitted by discovery's security-detector must match knowledge `applies_to` values.
 
 ### NestJS Backend (VC-AWG-Demo_FinalCode/be)
 

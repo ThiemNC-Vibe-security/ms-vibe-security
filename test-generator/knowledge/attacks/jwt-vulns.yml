@@ -1,0 +1,37 @@
+id: jwt_vulns
+name: JWT Token Vulnerabilities
+owasp:
+  - A07:2025
+  - A02:2021
+  - A07:2021
+cwe:
+  - CWE-345
+  - CWE-347
+  - CWE-321
+asvs:
+  - V3.5.1
+  - V3.5.2
+  - V3.5.3
+applies_to:
+  - any_page
+  - login_form
+  - api_endpoint
+payloads:
+  - "eyJhbGciOiJub25lIn0."
+  - "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiYWRtaW4ifQ."
+detection:
+  - jwt_uses_alg_none
+  - jwt_signed_with_weak_or_empty_secret
+  - jwt_missing_exp_or_long_lived_token
+  - jwt_stored_in_localstorage_or_url
+test_template_hints:
+  - perform_login_with_valid_credentials_if_available
+  - locate_jwt_in_localstorage_cookies_or_response_body
+  - decode_header_and_payload_via_atob
+  - assert_alg_is_not_none
+  - assert_token_payload_includes_exp_within_24h
+  - assert_token_not_stored_in_localstorage_for_high_risk_apps
+description: |
+  Tests common JWT misuses: alg=none acceptance, missing expiration, and
+  insecure storage. The Playwright test logs in, extracts the token, and
+  decodes it client-side for inspection.

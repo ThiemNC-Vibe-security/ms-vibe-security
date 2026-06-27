@@ -2,10 +2,15 @@
  * Detect security-relevant components on a DiscoveredPage.
  *
  * For each component returned, downstream LLMs use:
- *   - component.type            → which attack categories to consider
+ *   - component.type            → matches `applies_to` in knowledge YAMLs
  *   - component.selector        → where to inject payloads in generated tests
- *   - component.applicable_attacks → narrow attack list
- *   - component.owasp           → mapping to OWASP Top 10
+ *   - component.applicable_attacks → attack ids from the knowledge base that
+ *                                    are likely candidates (a hint to the
+ *                                    planner, not a hard constraint).
+ *   - component.owasp           → mapping to OWASP Top 10 (2025 + 2021)
+ *
+ * Component types emitted here must match the `applies_to` values used in
+ * test-generator/knowledge/attacks/*.yml so the planner can join them.
  */
 
 import type { DiscoveredPage, SecurityComponent } from '../output/schema.js';
@@ -15,103 +20,165 @@ import type {
   ExtractedInput,
 } from '../extractors/types.js';
 
+/**
+ * Authoritative map: component type → likely attack ids + OWASP refs.
+ * Attack ids must match knowledge/attacks/*.yml `id` fields.
+ */
 const ATTACK_MAP = {
   login_form: {
     attacks: [
       'sql_injection',
+      'nosql_injection',
       'broken_auth',
-      'credential_stuffing',
-      'brute_force',
-      'no_rate_limit',
-      'username_enumeration',
-      'auth_bypass',
+      'rate_limit',
+      'session_fixation',
+      'session_cookie_flags',
+      'sensitive_data_in_url',
+      'default_credentials',
     ],
-    owasp: ['A07:2021', 'A03:2021'],
+    owasp: ['A07:2025', 'A05:2025', 'A07:2021', 'A03:2021'],
+  },
+  admin_login_form: {
+    attacks: [
+      'sql_injection',
+      'broken_auth',
+      'default_credentials',
+      'rate_limit',
+      'session_fixation',
+    ],
+    owasp: ['A07:2025', 'A02:2025', 'A07:2021'],
   },
   registration_form: {
     attacks: [
       'sql_injection',
       'xss_stored',
-      'weak_password_accepted',
-      'mass_assignment',
-      'no_email_verification',
-      'username_enumeration',
+      'weak_password_policy',
+      'rate_limit',
+      'csrf',
     ],
-    owasp: ['A04:2021', 'A03:2021', 'A07:2021'],
+    owasp: ['A07:2025', 'A05:2025', 'A07:2021', 'A03:2021'],
   },
   password_recovery: {
-    attacks: [
-      'username_enumeration',
-      'no_rate_limit',
-      'predictable_token',
-      'open_redirect',
-    ],
-    owasp: ['A07:2021', 'A01:2021'],
+    attacks: ['rate_limit', 'open_redirect', 'sensitive_data_in_url'],
+    owasp: ['A07:2025', 'A01:2025', 'A07:2021'],
+  },
+  password_change_form: {
+    attacks: ['weak_password_policy', 'csrf', 'rate_limit', 'session_fixation'],
+    owasp: ['A07:2025'],
   },
   password_field: {
-    attacks: ['weak_password_accepted', 'password_in_url', 'no_password_complexity'],
-    owasp: ['A07:2021'],
+    attacks: ['weak_password_policy', 'sensitive_data_in_url', 'broken_auth'],
+    owasp: ['A07:2025', 'A07:2021'],
   },
   search_box: {
-    attacks: ['xss_reflected', 'sql_injection', 'open_redirect'],
-    owasp: ['A03:2021'],
+    attacks: [
+      'xss_reflected',
+      'xss_dom',
+      'sql_injection',
+      'nosql_injection',
+      'command_injection',
+      'ssti',
+      'stack_trace_leak',
+    ],
+    owasp: ['A05:2025', 'A03:2021'],
+  },
+  comment_form: {
+    attacks: ['xss_stored', 'xss_reflected', 'csrf', 'rate_limit'],
+    owasp: ['A05:2025', 'A03:2021'],
+  },
+  profile_form: {
+    attacks: ['xss_stored', 'csrf', 'idor'],
+    owasp: ['A05:2025', 'A01:2025'],
+  },
+  generic_form: {
+    attacks: [
+      'xss_reflected',
+      'xss_stored',
+      'sql_injection',
+      'command_injection',
+      'csrf',
+      'stack_trace_leak',
+    ],
+    owasp: ['A05:2025', 'A07:2025', 'A03:2021'],
   },
   file_upload: {
-    attacks: [
-      'malicious_file_upload',
-      'unrestricted_file_type',
-      'path_traversal',
-      'oversized_file',
-      'svg_xss',
-    ],
-    owasp: ['A04:2021', 'A05:2021'],
+    attacks: ['xss_stored', 'path_traversal', 'command_injection'],
+    owasp: ['A05:2025', 'A01:2025', 'A04:2021'],
   },
   file_download: {
     attacks: ['idor', 'path_traversal'],
-    owasp: ['A01:2021'],
+    owasp: ['A01:2025', 'A01:2021'],
   },
   payment_form: {
     attacks: [
-      'price_tampering',
-      'no_https',
-      'pci_violation',
-      'replay_attack',
       'csrf',
+      'sensitive_data_in_url',
+      'mixed_content',
+      'security_headers_missing',
     ],
-    owasp: ['A04:2021', 'A02:2021', 'A01:2021'],
+    owasp: ['A04:2025', 'A07:2025', 'A02:2025'],
   },
   admin_function: {
-    attacks: ['broken_access_control', 'privilege_escalation', 'csrf'],
-    owasp: ['A01:2021'],
+    attacks: ['idor', 'csrf', 'security_headers_missing', 'default_credentials'],
+    owasp: ['A01:2025', 'A02:2025', 'A01:2021'],
   },
   csrf_protected_form: {
-    attacks: ['csrf_token_validation', 'token_reuse'],
-    owasp: ['A01:2021'],
+    attacks: ['csrf'],
+    owasp: ['A07:2025', 'A01:2021'],
   },
   form_without_csrf: {
     attacks: ['csrf'],
-    owasp: ['A01:2021'],
+    owasp: ['A07:2025', 'A01:2021'],
   },
 } as const;
+
+/* ---------------------------- Heuristics ---------------------------- */
 
 function isLoginForm(form: ExtractedForm): boolean {
   const hasPassword = form.inputs.some((i) => i.type === 'password');
   if (!hasPassword) return false;
-  // Login forms have few fields. Registration has more (confirm pwd, name, email, etc.)
+  // Login forms have few fields; registration has more.
   return form.inputs.length <= 3;
+}
+
+function isPasswordChangeForm(form: ExtractedForm, url: string): boolean {
+  if (/change[-_]?password|update[-_]?password|password[-_]?change/i.test(url)) {
+    return form.inputs.some((i) => i.type === 'password');
+  }
+  // Also: 2+ password fields and a likely "current password" first
+  const passwordCount = form.inputs.filter((i) => i.type === 'password').length;
+  if (passwordCount < 2) return false;
+  const firstPassword = form.inputs.find((i) => i.type === 'password');
+  return !!firstPassword && /current|old/i.test(firstPassword.name ?? firstPassword.label ?? '');
 }
 
 function isRegistrationForm(form: ExtractedForm): boolean {
   const passwordCount = form.inputs.filter((i) => i.type === 'password').length;
-  // Registration typically has password + confirm password, or 4+ inputs with password
   if (passwordCount >= 2) return true;
   if (passwordCount === 1 && form.inputs.length >= 4) {
-    // also look for name/email-like fields
     const hasEmail = form.inputs.some((i) => i.type === 'email' || /email/i.test(i.name ?? ''));
     const hasName = form.inputs.some((i) => /name|username|user/i.test(i.name ?? ''));
     return hasEmail || hasName;
   }
   return false;
+}
+
+function isCommentForm(form: ExtractedForm, url: string): boolean {
+  if (/comment|reply|discuss|post|review/i.test(url)) {
+    return form.inputs.some((i) => i.tag === 'textarea');
+  }
+  // Detect inputs named comment/message
+  return form.inputs.some((i) => {
+    const id = (i.name ?? i.id ?? '').toLowerCase();
+    return /comment|reply|message|body|content/i.test(id) && i.tag === 'textarea';
+  });
+}
+
+function isProfileForm(form: ExtractedForm, url: string): boolean {
+  if (/profile|settings|account|preferences/i.test(url)) {
+    return form.inputs.length >= 2;
+  }
+  return form.inputs.some((i) => /avatar|bio|display[-_]?name|first[-_]?name|last[-_]?name/i.test(i.name ?? ''));
 }
 
 function isSearchBox(input: ExtractedInput): boolean {
@@ -130,7 +197,7 @@ function isDownloadButton(button: ExtractedButton): boolean {
 }
 
 function isPasswordRecoveryForm(form: ExtractedForm, url: string): boolean {
-  if (/forgot|reset[-_]?password/i.test(url)) return true;
+  if (/forgot|reset[-_]?password|recover/i.test(url)) return true;
   const hasOnlyEmail = form.inputs.length === 1 && form.inputs[0].type === 'email';
   const submitText = form.submit?.text ?? '';
   if (hasOnlyEmail && /reset|recover|forgot/i.test(submitText)) return true;
@@ -139,7 +206,6 @@ function isPasswordRecoveryForm(form: ExtractedForm, url: string): boolean {
 
 function isPaymentForm(form: ExtractedForm, url: string): boolean {
   if (/payment|checkout|billing|cart|order/i.test(url)) return true;
-  // Detect typical payment fields
   return form.inputs.some((i) => {
     const id = (i.name ?? i.id ?? '').toLowerCase();
     return (
@@ -158,20 +224,36 @@ function isAdminPage(url: string): boolean {
   }
 }
 
+function classifyForm(
+  form: ExtractedForm,
+  url: string,
+  onAdminPage: boolean,
+): keyof typeof ATTACK_MAP | null {
+  if (isPaymentForm(form, url)) return 'payment_form';
+  if (isPasswordChangeForm(form, url)) return 'password_change_form';
+  if (isPasswordRecoveryForm(form, url)) return 'password_recovery';
+  if (isLoginForm(form)) return onAdminPage ? 'admin_login_form' : 'login_form';
+  if (isRegistrationForm(form)) return 'registration_form';
+  if (isCommentForm(form, url)) return 'comment_form';
+  if (isProfileForm(form, url)) return 'profile_form';
+  // Fallback: any form with at least one input becomes a generic_form so the
+  // planner can still consider XSS / injection on it.
+  if (form.inputs.length > 0) return 'generic_form';
+  return null;
+}
+
+/* ---------------------------- Entry point ---------------------------- */
+
 /**
  * Detect all security components on a discovered page.
  */
 export function detectSecurityComponents(page: DiscoveredPage): SecurityComponent[] {
   const components: SecurityComponent[] = [];
+  const onAdminPage = isAdminPage(page.url);
 
   // Forms
   for (const form of page.forms) {
-    let primaryType: keyof typeof ATTACK_MAP | null = null;
-
-    if (isPaymentForm(form, page.url)) primaryType = 'payment_form';
-    else if (isPasswordRecoveryForm(form, page.url)) primaryType = 'password_recovery';
-    else if (isLoginForm(form)) primaryType = 'login_form';
-    else if (isRegistrationForm(form)) primaryType = 'registration_form';
+    const primaryType = classifyForm(form, page.url, onAdminPage);
 
     if (primaryType) {
       const meta = ATTACK_MAP[primaryType];
@@ -180,11 +262,11 @@ export function detectSecurityComponents(page: DiscoveredPage): SecurityComponen
         selector: form.selector,
         applicable_attacks: [...meta.attacks],
         owasp: [...meta.owasp],
-        description: `Auto-detected ${primaryType} form (${form.inputs.length} inputs)`,
+        description: `Auto-detected ${primaryType} (${form.inputs.length} inputs)`,
       });
     }
 
-    // CSRF status — flag forms that should have a token but don't
+    // CSRF status — flag POST forms regardless of primary classification
     if (form.method.toUpperCase() === 'POST') {
       if (form.csrf_token.present) {
         components.push({
@@ -204,7 +286,7 @@ export function detectSecurityComponents(page: DiscoveredPage): SecurityComponen
       }
     }
 
-    // Password fields (standalone signal)
+    // Password fields and file uploads inside forms
     for (const input of form.inputs) {
       if (input.type === 'password') {
         components.push({
@@ -225,7 +307,7 @@ export function detectSecurityComponents(page: DiscoveredPage): SecurityComponen
     }
   }
 
-  // Standalone inputs
+  // Standalone inputs (outside forms)
   for (const input of page.inputs) {
     if (isSearchBox(input)) {
       components.push({
@@ -253,7 +335,7 @@ export function detectSecurityComponents(page: DiscoveredPage): SecurityComponen
     }
   }
 
-  // Inputs inside forms — search box detection
+  // Search inputs inside forms
   for (const form of page.forms) {
     for (const input of form.inputs) {
       if (isSearchBox(input)) {
@@ -279,8 +361,8 @@ export function detectSecurityComponents(page: DiscoveredPage): SecurityComponen
     }
   }
 
-  // Admin
-  if (isAdminPage(page.url)) {
+  // Admin pages
+  if (onAdminPage) {
     components.push({
       type: 'admin_function',
       selector: 'body',
@@ -290,7 +372,6 @@ export function detectSecurityComponents(page: DiscoveredPage): SecurityComponen
     });
   }
 
-  // Dedup by (type, selector)
   return dedupComponents(components);
 }
 

@@ -1,7 +1,13 @@
 id: csrf
 name: Cross-Site Request Forgery
 owasp:
+  - A07:2025
   - A01:2021
+cwe:
+  - CWE-352
+asvs:
+  - V4.2.2
+  - V13.2.3
 applies_to:
   - form_without_csrf
   - login_form
@@ -11,12 +17,14 @@ payloads: []
 detection:
   - form_accepts_submission_without_csrf_token
   - form_accepts_submission_from_external_origin
+  - missing_samesite_cookie_attribute
 test_template_hints:
   - submit_form_without_referer_header
   - submit_form_with_modified_origin_header
   - submit_form_with_no_csrf_token_field
   - assert_server_rejects_or_blocks_submission
   - if_server_accepts_assert_no_state_change
+  - check_session_cookie_samesite_attribute
 description: |
   Detects forms that do not validate origin / CSRF token. Reproduces a
   cross-origin submission and asserts the server rejects it.

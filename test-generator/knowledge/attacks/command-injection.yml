@@ -1,0 +1,35 @@
+id: command_injection
+name: OS Command Injection
+owasp:
+  - A05:2025
+  - A03:2021
+cwe:
+  - CWE-77
+  - CWE-78
+asvs:
+  - V5.3.8
+applies_to:
+  - search_box
+  - generic_form
+  - url_param
+  - file_path_param
+payloads:
+  - "; sleep 5"
+  - "&& sleep 5"
+  - "| sleep 5"
+  - "`sleep 5`"
+  - "$(sleep 5)"
+  - "%0a sleep 5"
+detection:
+  - response_time_above_threshold:5000
+  - response_contains_shell_output_markers
+  - response_status_changes_for_command_payload
+test_template_hints:
+  - inject_each_payload_into_target_input_separately
+  - submit_form_and_measure_response_time
+  - assert_response_time_under_3_seconds
+  - assert_response_does_not_contain_uid=
+  - assert_response_does_not_contain_command_not_found
+description: |
+  Tests for blind and time-based OS command injection on inputs that flow
+  into shell commands (file processors, ping/whois tools, image converters).

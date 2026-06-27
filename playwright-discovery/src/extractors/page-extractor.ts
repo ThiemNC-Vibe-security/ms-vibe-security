@@ -164,20 +164,57 @@ function extractUrlParameters(rawUrl: string): UrlParameter[] {
       applicable_attacks: detectAttacksForParam(name, value),
     });
   }
+  // Fragment (hash) — may flow into client-side sinks (DOM XSS).
+  if (parsed.hash && parsed.hash.length > 1) {
+    params.push({
+      name: '__fragment__',
+      value: parsed.hash.slice(1),
+      in: 'fragment',
+      applicable_attacks: ['xss_dom', 'open_redirect'],
+    });
+  }
   return params;
 }
 
 /**
  * Quick heuristic for which attacks could apply to a URL parameter.
+ * Returns attack ids matching test-generator/knowledge/attacks/*.yml.
  * The downstream LLM may refine this.
  */
 function detectAttacksForParam(name: string, value: string): string[] {
   const attacks: string[] = [];
   const lower = name.toLowerCase();
-  if (/(redirect|next|return|url|callback)/i.test(lower)) attacks.push('open_redirect');
-  if (/(id|user|uid|account)/i.test(lower)) attacks.push('idor');
-  if (/(q|query|search)/i.test(lower)) attacks.push('xss_reflected', 'sql_injection');
-  if (value.length > 0 && /[^a-z0-9-_]/i.test(value)) attacks.push('injection_candidate');
+
+  // Redirect / next / callback URL parameters
+  if (/^(redirect|redirect_uri|redirect_url|next|return|return_to|return_url|url|callback|callback_url|continue|goto)$/i.test(lower)) {
+    attacks.push('open_redirect', 'ssrf', 'xss_reflected');
+  }
+
+  // Webhook / import / source URLs → server-side fetch → SSRF
+  if (/^(webhook|webhook_url|notify|notify_url|import|import_url|source|source_url|fetch|proxy|target|target_url|host)$/i.test(lower)) {
+    attacks.push('ssrf', 'open_redirect');
+  }
+
+  // ID-like parameters
+  if (/^(id|user_?id|account_?id|uid|user|order_?id|invoice_?id|resource_?id|item_?id|record_?id)$/i.test(lower)) {
+    attacks.push('idor', 'sql_injection');
+  }
+
+  // File / path parameters
+  if (/^(file|filename|filepath|path|page|template|view|include|load|doc|document|attachment|download)$/i.test(lower)) {
+    attacks.push('path_traversal', 'idor', 'command_injection');
+  }
+
+  // Search / query parameters
+  if (/^(q|query|search|term|keyword|s)$/i.test(lower)) {
+    attacks.push('xss_reflected', 'xss_dom', 'sql_injection', 'nosql_injection');
+  }
+
+  // Generic param with non-alphanumeric content → injection candidate
+  if (value.length > 0 && /[^a-z0-9-_]/i.test(value)) {
+    attacks.push('xss_reflected', 'sql_injection', 'stack_trace_leak');
+  }
+
   return uniq(attacks);
 }
 

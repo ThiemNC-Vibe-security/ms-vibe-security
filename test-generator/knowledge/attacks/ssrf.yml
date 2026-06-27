@@ -1,0 +1,37 @@
+id: ssrf
+name: Server-Side Request Forgery
+owasp:
+  - A01:2025
+  - A10:2021
+cwe:
+  - CWE-918
+asvs:
+  - V12.6.1
+  - V12.6.2
+applies_to:
+  - url_param
+  - webhook_param
+  - import_url_param
+payloads:
+  - "http://127.0.0.1"
+  - "http://localhost:80"
+  - "http://169.254.169.254/latest/meta-data/"
+  - "http://[::1]/"
+  - "http://0.0.0.0/"
+  - "file:///etc/passwd"
+  - "gopher://127.0.0.1:6379/_INFO"
+detection:
+  - response_contains_internal_network_content
+  - response_contains_aws_metadata_keywords
+  - response_time_consistent_with_internal_dns_hit
+  - server_returns_unexpected_2xx_for_internal_payload
+test_template_hints:
+  - identify_url_param_that_drives_server_side_fetch
+  - substitute_each_internal_payload_for_param_value
+  - send_request_and_assert_response_status_is_4xx_or_blocked
+  - assert_response_body_does_not_contain_ami-id_or_instance-id
+  - assert_response_body_does_not_contain_root:x:0:0
+description: |
+  SSRF lets an attacker make the server issue requests on its behalf to
+  internal services, cloud metadata endpoints, or local files. SSRF was
+  promoted from A10:2021 into A01:2025 (Broken Access Control).

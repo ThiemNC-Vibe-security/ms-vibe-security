@@ -1,0 +1,39 @@
+id: xss_stored
+name: Stored Cross-Site Scripting
+owasp:
+  - A05:2025
+  - A03:2021
+cwe:
+  - CWE-79
+  - CWE-80
+asvs:
+  - V1.2.5
+  - V5.3.3
+  - V5.3.6
+applies_to:
+  - generic_form
+  - registration_form
+  - comment_form
+  - profile_form
+  - form_without_csrf
+  - csrf_protected_form
+payloads:
+  - "<script>alert('XSSStored')</script>"
+  - "<img src=x onerror=alert('XSSStored')>"
+  - "<svg/onload=alert('XSSStored')>"
+  - "<details open ontoggle=alert('XSSStored')>"
+detection:
+  - payload_persists_and_executes_on_subsequent_page_load
+  - payload_visible_unescaped_in_rendered_html
+  - dialog_appears_on_page_view_after_submit
+test_template_hints:
+  - submit_form_with_payload_in_a_text_field
+  - navigate_away_then_revisit_page_where_value_is_rendered
+  - listen_for_dialog_event_and_dismiss_to_avoid_blocking
+  - assert_no_dialog_fired_when_viewing_the_rendered_page
+  - or_assert_payload_appears_escaped_in_dom
+  - clean_up_test_data_if_possible
+description: |
+  Stored XSS occurs when user input is persisted and rendered to other
+  users without escaping. Tests submit a payload, revisit a page that
+  renders the value, and assert no script executes.

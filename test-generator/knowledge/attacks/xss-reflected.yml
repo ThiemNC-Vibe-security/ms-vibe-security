@@ -1,7 +1,15 @@
 id: xss_reflected
 name: Reflected Cross-Site Scripting
 owasp:
+  - A05:2025
   - A03:2021
+cwe:
+  - CWE-79
+  - CWE-80
+asvs:
+  - V1.2.5
+  - V5.3.3
+  - V5.3.6
 applies_to:
   - search_box
   - generic_form
@@ -17,6 +25,7 @@ payloads:
   - "<svg onload=alert(1)>"
   - "'\"><img src=x onerror=alert(1)>"
   - "</textarea><script>alert(1)</script>"
+  - "<iframe src=javascript:alert(1)>"
 detection:
   - payload_reflected_unescaped_in_response_html
   - script_executes_in_page_context

@@ -1,0 +1,32 @@
+id: cors_misconfig
+name: CORS Misconfiguration
+owasp:
+  - A02:2025
+  - A05:2021
+cwe:
+  - CWE-942
+  - CWE-346
+asvs:
+  - V13.2.6
+  - V14.5.3
+applies_to:
+  - any_page
+  - api_endpoint
+payloads:
+  - "https://evil.example.com"
+  - "null"
+  - "https://attacker.com"
+detection:
+  - response_acao_reflects_arbitrary_origin
+  - response_acao_is_wildcard_with_credentials_true
+  - response_acac_true_for_external_origin
+test_template_hints:
+  - send_request_to_api_or_main_page_with_modified_origin_header
+  - capture_access_control_allow_origin_in_response
+  - assert_acao_does_not_blindly_reflect_request_origin
+  - assert_acao_wildcard_is_not_combined_with_acac_true
+  - if_api_endpoints_are_known_test_each
+description: |
+  Improper CORS configuration allows untrusted origins to read authenticated
+  responses. The test sends requests with hostile Origin headers and asserts
+  the server does not blindly echo them back with credentials enabled.

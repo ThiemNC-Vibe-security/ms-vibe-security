@@ -1,0 +1,41 @@
+id: stack_trace_leak
+name: Stack Trace or Error Information Leak
+owasp:
+  - A10:2025
+  - A04:2021
+  - A05:2021
+cwe:
+  - CWE-209
+  - CWE-755
+asvs:
+  - V7.4.1
+  - V7.4.2
+applies_to:
+  - any_page
+  - login_form
+  - generic_form
+  - search_box
+  - url_param
+payloads:
+  - "'"
+  - "\\"
+  - "%00"
+  - "{{7*7}}"
+  - "[]"
+  - "<%= 1 %>"
+detection:
+  - response_contains_stack_trace_keywords
+  - response_contains_framework_error_page
+  - response_contains_keywords:["at java.","at org.","Traceback","TypeError:","NullReference","System.","NestApplication","TypeOrm"]
+  - response_5xx_with_descriptive_body
+test_template_hints:
+  - send_malformed_payload_to_input_or_url_param
+  - capture_response_body_and_status
+  - assert_response_status_is_not_5xx
+  - or_if_5xx_assert_body_does_not_contain_stack_trace_keywords
+  - assert_response_does_not_disclose_file_paths_or_class_names
+description: |
+  A new category in OWASP Top 10:2025 (Mishandling of Exceptional
+  Conditions). The test forces error paths with malformed input and asserts
+  the application returns a generic error rather than a stack trace,
+  framework page, or internal class names.

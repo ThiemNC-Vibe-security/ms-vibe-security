@@ -1,0 +1,35 @@
+id: security_headers_missing
+name: Missing or Weak Security Response Headers
+owasp:
+  - A02:2025
+  - A05:2021
+cwe:
+  - CWE-693
+  - CWE-1021
+  - CWE-1275
+asvs:
+  - V13.4.1
+  - V13.4.2
+  - V13.4.3
+  - V13.4.4
+applies_to:
+  - any_page
+payloads: []
+detection:
+  - missing_content_security_policy_header
+  - missing_strict_transport_security_header
+  - missing_x_content_type_options_nosniff
+  - missing_x_frame_options_or_frame_ancestors_csp
+  - missing_referrer_policy
+  - weak_csp_using_unsafe_inline_or_unsafe_eval
+test_template_hints:
+  - navigate_to_target_page_and_capture_main_response_headers
+  - assert_response_headers_include_content_security_policy
+  - assert_response_headers_include_strict_transport_security_with_max_age
+  - assert_response_headers_include_x_content_type_options_nosniff
+  - assert_response_headers_include_x_frame_options_or_csp_frame_ancestors
+  - assert_csp_does_not_contain_unsafe_inline
+description: |
+  Modern browsers rely on response headers to mitigate XSS, click-jacking
+  and downgrade attacks. This check verifies that the main page response
+  carries appropriate headers with non-trivial values.

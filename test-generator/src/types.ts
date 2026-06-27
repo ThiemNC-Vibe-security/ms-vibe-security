@@ -177,7 +177,9 @@ export interface TesterRequirement {
 export interface KnowledgeAttack {
   id: string;                       // e.g. "sql_injection"
   name: string;
-  owasp: string[];                  // e.g. ["A03:2021"]
+  owasp: string[];                  // e.g. ["A05:2025", "A03:2021"]
+  cwe: string[];                    // e.g. ["CWE-89"]
+  asvs: string[];                   // ASVS v5.0 requirement IDs, e.g. ["V5.3.4"]
   applies_to: string[];             // component types (login_form, search_box, etc.)
   payloads: string[];
   detection: string[];              // detection rule IDs
