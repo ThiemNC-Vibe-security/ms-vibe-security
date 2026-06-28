@@ -23,7 +23,9 @@ import {
   buildTables,
 } from './transformer.js';
 import { applyVerification, verifySelectors } from '../selectors/selector-verifier.js';
+import { exploreDynamicUI } from '../crawler/dynamic-explorer.js';
 import type { DiscoveredPage, SecurityComponent, UrlParameter } from '../output/schema.js';
+import type { InteractConfig } from '../config/schema.js';
 import type {
   ExtractedButton,
   ExtractedForm,
@@ -53,6 +55,8 @@ export interface PageExtractOptions {
   /** When set, take a screenshot and store the relative path in the result. */
   screenshotPath?: string;
   hooks?: PageEnrichmentHooks;
+  /** Phase 6: dynamic interaction config. Defaults to disabled. */
+  interactConfig?: InteractConfig;
 }
 
 export interface PageExtractResult {
@@ -237,13 +241,27 @@ export async function extractPage(
 
     next_candidate_pages: outboundUrls,
     screenshot_path: screenshotPath,
+
+    // Phase 6: populated after exploreDynamicUI()
+    dynamic_components: [],
+    interactions_performed: [],
   };
 
   const securityComponents = options.hooks?.detectSecurityComponents?.(preFinal) ?? [];
 
+  // ── Phase 6: Safe Dynamic UI Discovery ──────────────────────────────
+  const dynamicResult = await exploreDynamicUI(
+    pwPage,
+    options.interactConfig ?? { enabled: false, max_interactions_per_page: 10, discover_modals: true, discover_tabs: true, discover_dropdowns: true, interaction_settle_ms: 600 },
+    raw.url,
+  );
+  // ────────────────────────────────────────────────────────────────────
+
   const page: DiscoveredPage = {
     ...preFinal,
     security_components: securityComponents,
+    dynamic_components: dynamicResult.dynamic_components,
+    interactions_performed: dynamicResult.interactions_performed,
   };
 
   return { page, outboundUrls };

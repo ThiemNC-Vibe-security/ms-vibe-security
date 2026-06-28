@@ -219,6 +219,7 @@ export class Crawler {
               classifyPageType: (signals) => classifyPage(signals),
               detectSecurityComponents: (p) => detectSecurityComponents(p),
             },
+            interactConfig: this.config.interact,
           });
         },
         {

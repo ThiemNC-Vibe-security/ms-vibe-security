@@ -77,6 +77,42 @@ export interface DiscoveredPage {
 
   next_candidate_pages: string[];
   screenshot_path: string | null;
+
+  /**
+   * Phase 6: dynamic UI components discovered via safe interaction.
+   * Empty array when interact.enabled = false (default).
+   */
+  dynamic_components: DynamicComponent[];
+  /** Phase 6: log of interactions performed on this page. */
+  interactions_performed: InteractionRecord[];
+}
+
+/* ----------------------- Dynamic UI (Phase 6) ---------------------- */
+
+export interface DynamicComponent {
+  /** Component category: modal | tab_panel | dropdown | accordion | sidebar_panel | unknown */
+  type: string;
+  /** Selector of the trigger element that revealed this component */
+  trigger_selector: string;
+  /** Text of the trigger element */
+  trigger_text: string | null;
+  /** Title / heading text inside the revealed component (if detectable) */
+  title: string | null;
+  /** Forms discovered inside the component */
+  forms: ExtractedForm[];
+  /** Buttons discovered inside the component */
+  buttons: ExtractedButton[];
+  /** Inputs discovered inside the component */
+  inputs: ExtractedInput[];
+}
+
+export interface InteractionRecord {
+  action: 'click';
+  selector: string;
+  trigger_text: string | null;
+  /** What was discovered as a result of this interaction */
+  result: 'modal_opened' | 'panel_revealed' | 'dropdown_opened' | 'tab_activated' | 'no_change' | 'error';
+  error?: string;
 }
 
 /* ------------------------- Security ----------------------------- */

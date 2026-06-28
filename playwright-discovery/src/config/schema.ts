@@ -92,6 +92,26 @@ export const NetworkSchema = z.object({
   xhr_only: z.boolean().default(true),
 });
 
+export const InteractSchema = z.object({
+  /**
+   * Enable safe dynamic UI interaction (Phase 6).
+   * DEFAULT OFF — must be explicitly enabled.
+   * When enabled, clicks safe trigger elements (tabs, menus, filters, …)
+   * to reveal hidden modals, panels, dropdowns, and tab content.
+   */
+  enabled: z.boolean().default(false),
+  /** Maximum click interactions per page */
+  max_interactions_per_page: z.number().int().positive().default(10),
+  /** Attempt to discover modal content after safe clicks */
+  discover_modals: z.boolean().default(true),
+  /** Attempt to discover tab panel content */
+  discover_tabs: z.boolean().default(true),
+  /** Attempt to discover dropdown option lists */
+  discover_dropdowns: z.boolean().default(true),
+  /** Wait (ms) after each interaction for UI to settle */
+  interaction_settle_ms: z.number().int().nonnegative().default(600),
+});
+
 export const ConfigSchema = z.object({
   target: z.string().url('target must be a valid URL'),
   scope: ScopeSchema.default({}),
@@ -102,6 +122,7 @@ export const ConfigSchema = z.object({
   retry: RetrySchema.default({}),
   output: OutputSchema.default({}),
   network: NetworkSchema.default({}),
+  interact: InteractSchema.default({}),
 });
 
 export type Config = z.infer<typeof ConfigSchema>;
@@ -112,3 +133,4 @@ export type ScopeConfig = z.infer<typeof ScopeSchema>;
 export type TimingConfig = z.infer<typeof TimingSchema>;
 export type OutputConfig = z.infer<typeof OutputSchema>;
 export type NetworkConfig = z.infer<typeof NetworkSchema>;
+export type InteractConfig = z.infer<typeof InteractSchema>;
