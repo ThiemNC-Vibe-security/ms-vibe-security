@@ -22,6 +22,7 @@ import { isInScope, isAssetUrl, normalizeUrl } from './url-utils.js';
 import { extractPage, screenshotPathFor } from '../extractors/page-extractor.js';
 import { classifyPage } from '../classifier/page-type.js';
 import { detectSecurityComponents } from '../classifier/security-detector.js';
+import { buildSecurityModels } from '../output/model-builder.js';
 import type { Config } from '../config/schema.js';
 import type { AuthBundle } from '../auth/index.js';
 import type {
@@ -311,6 +312,22 @@ export class Crawler {
       .digest('hex')
       .slice(0, 12);
 
+    // Phase 4: build application model, attack surface model, security testing context
+    const securityModels = buildSecurityModels(this.pages, this.edges);
+
+    logger.info(
+      {
+        routes: securityModels.application_model.routes.length,
+        auth_surfaces: securityModels.attack_surface_model.auth_surfaces.length,
+        data_surfaces: securityModels.attack_surface_model.data_input_surfaces.length,
+        file_surfaces: securityModels.attack_surface_model.file_upload_surfaces.length,
+        test_categories: securityModels.security_testing_context.recommended_test_categories.length,
+        priority_targets: securityModels.security_testing_context.priority_targets.length,
+        candidate_flows: securityModels.security_testing_context.candidate_playwright_flows.length,
+      },
+      'security models built',
+    );
+
     return {
       metadata: {
         base_url: this.config.target,
@@ -324,6 +341,7 @@ export class Crawler {
       pages: this.pages,
       graph: { edges: this.edges },
       errors: this.errors,
+      ...securityModels,
     };
   }
 }

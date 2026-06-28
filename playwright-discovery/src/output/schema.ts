@@ -13,15 +13,20 @@ import type {
   ExtractedNavigation,
   ExtractedTable,
 } from '../extractors/types.js';
+import type { SecurityModels } from './model-builder.js';
 
 /* ----------------------------- Top-level ----------------------------- */
 
-export interface DiscoveryOutput {
+export interface DiscoveryOutput extends SecurityModels {
   metadata: DiscoveryMetadata;
   stats: DiscoveryStats;
   pages: DiscoveredPage[];
   graph: CrawlGraph;
   errors: DiscoveryError[];
+  /**
+   * Phase 4 fields (application_model, attack_surface_model,
+   * security_testing_context) are inherited from SecurityModels.
+   */
 }
 
 export interface DiscoveryMetadata {
