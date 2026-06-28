@@ -23,6 +23,7 @@ import { extractPage, screenshotPathFor } from '../extractors/page-extractor.js'
 import { classifyPage } from '../classifier/page-type.js';
 import { detectSecurityComponents } from '../classifier/security-detector.js';
 import { buildSecurityModels } from '../output/model-builder.js';
+import { buildEvaluationMetrics } from '../output/metrics-builder.js';
 import { NetworkMonitor, buildNetworkSummary } from '../probe/network-monitor.js';
 import type { CapturedEndpoint } from '../probe/network-monitor.js';
 import type { Config } from '../config/schema.js';
@@ -375,6 +376,29 @@ export class Crawler {
       );
     }
 
+    // Phase 7: compute evaluation metrics
+    const evaluationMetrics = buildEvaluationMetrics({
+      pages: this.pages,
+      errors: this.errors,
+      endpoints,
+      attackSurfaceModel: securityModels.attack_surface_model,
+    });
+
+    logger.info(
+      {
+        pages: evaluationMetrics.pages_discovered,
+        forms: evaluationMetrics.forms_discovered,
+        inputs: evaluationMetrics.inputs_discovered,
+        endpoints: evaluationMetrics.endpoints_discovered,
+        selectors_total: evaluationMetrics.selectors_total,
+        selectors_verified: evaluationMetrics.selectors_verified,
+        selector_success_rate: evaluationMetrics.selector_success_rate,
+        attack_surfaces: evaluationMetrics.attack_surface_count,
+        errors: evaluationMetrics.crawl_errors,
+      },
+      'evaluation metrics computed',
+    );
+
     return {
       metadata: {
         base_url: this.config.target,
@@ -390,6 +414,7 @@ export class Crawler {
       errors: this.errors,
       endpoints,
       network_summary: networkSummary,
+      evaluation_metrics: evaluationMetrics,
       ...securityModels,
     };
   }

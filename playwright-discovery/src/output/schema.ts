@@ -32,6 +32,8 @@ export interface DiscoveryOutput extends SecurityModels {
   endpoints: CapturedEndpoint[];
   /** Phase 5: high-level network capture statistics */
   network_summary: NetworkSummary;
+  /** Phase 7: evaluation metrics for research reporting and regression detection */
+  evaluation_metrics: EvaluationMetrics;
 }
 
 export interface DiscoveryMetadata {
@@ -154,4 +156,41 @@ export interface DiscoveryError {
   error_type: string;
   message: string;
   timestamp: string;
+}
+
+/* ---------------------- Evaluation Metrics (Phase 7) --------------- */
+
+export interface EvaluationMetrics {
+  /** Total pages successfully crawled */
+  pages_discovered: number;
+  /** Pages that failed to load / extract */
+  crawl_errors: number;
+  /** Unique forms found across all pages */
+  forms_discovered: number;
+  /** Total inputs (standalone + inside forms) */
+  inputs_discovered: number;
+  /** Total buttons */
+  buttons_discovered: number;
+  /** Total links */
+  links_discovered: number;
+  /** Deduplicated API endpoints captured (Phase 5) */
+  endpoints_discovered: number;
+  /** Total selectors across forms, inputs, buttons, links */
+  selectors_total: number;
+  /**
+   * Selectors confirmed by Playwright locator.count() > 0 (Phase 2).
+   * 0 if selector verification was not run (all selector_verified = false).
+   */
+  selectors_verified: number;
+  /**
+   * Fraction of verified selectors: selectors_verified / selectors_total.
+   * null when selectors_total = 0.
+   */
+  selector_success_rate: number | null;
+  /** Unique security component types detected across all pages */
+  security_components_detected: number;
+  /** Distinct attack surface items from the attack_surface_model (Phase 4) */
+  attack_surface_count: number;
+  /** Dynamic UI components found via Phase 6 interaction (0 when disabled) */
+  dynamic_components_discovered: number;
 }
