@@ -8,6 +8,8 @@
  */
 
 import { join } from 'node:path';
+import { mkdir } from 'node:fs/promises';
+import { dirname } from 'node:path';
 import type { Page } from 'playwright';
 import { logger } from '../utils/logger.js';
 import { normalizeUrl, urlPath } from '../crawler/url-utils.js';
@@ -62,10 +64,12 @@ export async function extractPage(
   let screenshotPath: string | null = null;
   if (options.screenshotPath) {
     try {
+      // Ensure the screenshots directory exists before writing (Task 1.1 fix)
+      await mkdir(dirname(options.screenshotPath), { recursive: true });
       await pwPage.screenshot({ path: options.screenshotPath, fullPage: false });
       screenshotPath = options.screenshotPath;
     } catch (err) {
-      logger.warn({ err: String(err) }, 'screenshot failed');
+      logger.warn({ err: String(err), path: options.screenshotPath }, 'screenshot failed');
     }
   }
 

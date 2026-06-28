@@ -16,8 +16,10 @@ export const CrawlSchema = z.object({
   strategy: z.enum(['bfs', 'dfs']).default('bfs'),
   same_domain_only: z.boolean().default(true),
   follow_subdomains: z.boolean().default(false),
-  parallel: z.number().int().positive().default(1),
-  respect_robots_txt: z.boolean().default(true),
+  /** reserved_for_future_use: concurrent page crawling (currently runs sequentially) */
+  parallel: z.number().int().positive().default(1).describe('reserved_for_future_use'),
+  /** reserved_for_future_use: fetch robots.txt and skip disallowed paths */
+  respect_robots_txt: z.boolean().default(true).describe('reserved_for_future_use'),
 });
 
 export const AuthSchema = z.object({
@@ -71,7 +73,8 @@ export const OutputSchema = z.object({
   dir: z.string().default('./output'),
   filename_pattern: z.string().default('discovery_{timestamp}.json'),
   save_screenshots: z.boolean().default(false),
-  save_traces: z.boolean().default(false),
+  /** reserved_for_future_use: save Playwright traces alongside the discovery output */
+  save_traces: z.boolean().default(false).describe('reserved_for_future_use'),
 });
 
 export const ConfigSchema = z.object({

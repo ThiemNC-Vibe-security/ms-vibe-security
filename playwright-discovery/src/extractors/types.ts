@@ -15,7 +15,11 @@ export interface RawFormSnapshot {
   action: string | null;
   method: string;
   enctype: string | null;
-  inputs: ElementInfo[];
+  /**
+   * Full input snapshots (same metadata as standalone inputs).
+   * Phase 1.2 fix: was previously ElementInfo[] which dropped required/pattern/etc.
+   */
+  inputs: RawInputSnapshot[];
   submitButton: ElementInfo | null;
   hasCsrfToken: boolean;
   csrfFieldName: string | null;

@@ -140,6 +140,16 @@ src/
 - Same-page hash-route SPAs are treated as one page
 - No probing of forms by default (safe-by-default; opt-in coming later)
 
+## Config fields — reserved for future use
+
+The following config fields are **accepted but not yet implemented**. They are validated and stored, but have no effect at runtime:
+
+| Field | Default | Status |
+|-------|---------|--------|
+| `crawl.parallel` | `1` | `reserved_for_future_use` — concurrent page crawling (currently sequential) |
+| `crawl.respect_robots_txt` | `true` | `reserved_for_future_use` — robots.txt enforcement not yet active |
+| `output.save_traces` | `false` | `reserved_for_future_use` — Playwright trace saving not yet wired |
+
 ## License
 
 Internal project.

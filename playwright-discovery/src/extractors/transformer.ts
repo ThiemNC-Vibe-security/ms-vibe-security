@@ -77,7 +77,8 @@ export function buildForms(snapshots: RawFormSnapshot[]): ExtractedForm[] {
       action: form.action,
       method: form.method,
       enctype: form.enctype,
-      inputs: form.inputs.map((info) => buildInput(info, undefined)),
+      // Pass the full RawInputSnapshot so metadata (required, pattern, etc.) is preserved
+      inputs: form.inputs.map((snap) => buildInput(snap.info, snap)),
       submit,
       csrf_token: {
         present: form.hasCsrfToken,

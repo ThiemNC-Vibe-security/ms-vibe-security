@@ -251,7 +251,19 @@ export const extractRawPageSnapshot = (): RawPageSnapshot => {
       const inputEls = Array.from(
         form.querySelectorAll('input:not([type="hidden"]), select, textarea'),
       );
-      const inputs = inputEls.map(extractInfo);
+      // Capture full metadata for inputs inside forms (same as standalone inputs)
+      const inputs = inputEls.map((el) => {
+        const inp = el as HTMLInputElement;
+        return {
+          info: extractInfo(el),
+          required: inp.required ?? false,
+          defaultValue: inp.defaultValue || null,
+          minLength: inp.minLength > 0 ? inp.minLength : null,
+          maxLength: inp.maxLength > 0 ? inp.maxLength : null,
+          pattern: inp.pattern || null,
+          autocomplete: inp.autocomplete || null,
+        };
+      });
       const submitEl = findSubmitButton(formEl);
       const csrf = detectCsrf(formEl);
       return {
