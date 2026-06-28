@@ -113,6 +113,13 @@ export interface ExtractedInput extends SelectorBundle {
   default_value: string | null;
   aria_label: string | null;
   data_testid: string | null;
+  /**
+   * Phase 3: semantic security classification.
+   * Populated by classifyInput() in the transformer.
+   */
+  semantic_type: import('../classifier/semantic-input-classifier.js').SemanticType;
+  data_category: import('../classifier/semantic-input-classifier.js').DataCategory;
+  security_relevance: import('../classifier/semantic-input-classifier.js').SecurityRelevance;
 }
 
 export interface ExtractedButton extends SelectorBundle {

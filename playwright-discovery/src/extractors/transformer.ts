@@ -13,6 +13,7 @@
 
 import { generateSelector } from '../selectors/generator.js';
 import { UNVERIFIED } from '../selectors/selector-verifier.js';
+import { classifyInput } from '../classifier/semantic-input-classifier.js';
 import type { ElementInfo } from '../selectors/types.js';
 import type {
   ExtractedButton,
@@ -43,6 +44,15 @@ function selectorOf(info: ElementInfo) {
 /* --------------------------- form / input --------------------------- */
 
 export function buildInput(info: ElementInfo, attrs?: Partial<RawInputSnapshot>): ExtractedInput {
+  const classification = classifyInput({
+    type: info.type,
+    name: info.name,
+    id: info.id,
+    placeholder: info.placeholder,
+    label: info.label,
+    autocomplete: attrs?.autocomplete ?? null,
+  });
+
   return {
     ...selectorOf(info),
     tag: info.tag,
@@ -59,6 +69,7 @@ export function buildInput(info: ElementInfo, attrs?: Partial<RawInputSnapshot>)
     default_value: attrs?.defaultValue ?? null,
     aria_label: info.ariaLabel,
     data_testid: info.testId,
+    ...classification,
   };
 }
 
