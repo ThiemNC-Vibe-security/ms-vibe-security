@@ -1,10 +1,23 @@
-# Playwright Discovery
+# playwright-discovery
 
-Auto-discover the structure of a website (pages, forms, inputs, buttons, navigation, security-relevant components) and emit a JSON model that an LLM can consume to generate Playwright security tests.
+**playwright-discovery** là Discovery Engine dùng Playwright để thu thập cấu trúc của web application và tạo ra Security Testing Context (STC) có cấu trúc.
 
-See [`overview.md`](./overview.md) for the full spec.
+> **Lưu ý:** Đây **không phải** là DAST scanner và không khai thác lỗ hổng bảo mật. Tool này là tầng Discovery Engine để tạo ngữ cảnh cho LLM hoặc DAST orchestrator sử dụng tiếp.
 
-## Install
+## Flow
+
+```
+Target Website
+  → Playwright Discovery
+  → Application Model (routes, forms, navigation graph)
+  → Attack Surface Model (auth surfaces, data inputs, file uploads, API endpoints)
+  → Security Testing Context (test categories, priority targets, candidate flows)
+  → LLM-generated Playwright Security Tests
+```
+
+---
+
+## Cài đặt
 
 ```bash
 npm install
@@ -14,61 +27,111 @@ npx playwright install chromium
 ## Quick start
 
 ```bash
-# Generate a starter config
+# Sinh config mẫu
 npm run dev -- init
 
-# Run discovery against any public site
+# Chạy discovery với URL trực tiếp
 npm run dev -- run --url https://example.com --max-pages 10
 
-# Use a config file
-npm run dev -- run --config ./discovery.yml
+# Dùng config file YAML
+npm run dev -- run --config ./examples/basic.yml
 
 # Verbose logging
-npm run dev -- run --url https://example.com -v
+npm run dev -- run --config ./examples/basic.yml -v
 ```
 
-After building (`npm run build`), the same commands work via:
+Sau khi build (`npm run build`):
 
 ```bash
-node dist/cli.js run --url https://example.com
+node dist/cli.js run --config ./examples/basic.yml
 ```
 
-## Common options
+---
 
-| Flag                    | What it does                                  |
-|-------------------------|-----------------------------------------------|
-| `-c, --config <path>`   | Load a YAML config                            |
-| `-u, --url <url>`       | Target URL (overrides `config.target`)        |
-| `--max-pages <n>`       | Max pages to crawl                            |
-| `--max-depth <n>`       | Max crawl depth                               |
-| `--strategy <bfs\|dfs>` | Crawl strategy                                |
-| `--output-dir <dir>`    | Where to write the JSON                       |
-| `--save-screenshots`    | Save per-page PNGs alongside the JSON         |
-| `--headless` / `--no-headless` | Toggle headless mode                   |
-| `--browser <type>`      | `chromium` / `firefox` / `webkit`             |
-| `-v, --verbose`         | Debug logging                                 |
+## CLI Options
 
-CLI flags always win over the config file.
+| Flag | Mô tả |
+|------|-------|
+| `-c, --config <path>` | Load YAML config file |
+| `-u, --url <url>` | Target URL (override `config.target`) |
+| `--max-pages <n>` | Số trang tối đa |
+| `--max-depth <n>` | Độ sâu crawl tối đa |
+| `--strategy <bfs\|dfs>` | Chiến lược crawl |
+| `--output-dir <dir>` | Thư mục output JSON |
+| `--save-screenshots` | Lưu screenshot mỗi trang |
+| `--headless` / `--no-headless` | Bật/tắt headless mode |
+| `--browser <type>` | `chromium` / `firefox` / `webkit` |
+| `-v, --verbose` | Debug logging |
 
-## Examples
+CLI flags luôn override config file.
 
-[`examples/basic.yml`](./examples/basic.yml) — public site, no auth.
+---
 
-[`examples/with-auth.yml`](./examples/with-auth.yml) — form login, reusable storage state.
+## Config YAML
 
-[`examples/enterprise.yml`](./examples/enterprise.yml) — large site, scoped, timeouts tuned, screenshots on.
+Xem schema đầy đủ tại [`docs/OUTPUT_SCHEMA.md`](./docs/OUTPUT_SCHEMA.md). Dưới đây là config tham khảo:
 
-## Authentication
+```yaml
+target: https://your-app.example.com
 
-Set `auth.mode` in the YAML. Supported modes:
+scope:
+  include: []        # glob patterns — rỗng = không lọc
+  exclude:
+    - /logout
+    - /admin/**
 
-- `none` — public site (default)
-- `basic` — HTTP Basic auth (`basic_user`, `basic_password`)
-- `bearer` — sends `Authorization: Bearer <token>`
-- `form` — fills a login form once, optionally saves storage state for reuse
-- `storage_state` — loads a Playwright-format auth state file
+crawl:
+  max_pages: 20
+  max_depth: 3
+  strategy: bfs      # bfs | dfs
+  same_domain_only: true
+  follow_subdomains: false
 
-Form auth example:
+auth:
+  mode: none         # none | basic | bearer | form | storage_state
+
+browser:
+  type: chromium     # chromium | firefox | webkit
+  headless: true
+  viewport:
+    width: 1280
+    height: 800
+
+timing:
+  navigation_timeout: 30000
+  wait_for_network_idle: true
+  wait_after_navigation: 1000
+  action_timeout: 10000
+
+retry:
+  max_attempts: 2
+  backoff_ms: 2000
+
+output:
+  dir: ./output
+  filename_pattern: discovery_{timestamp}.json
+  save_screenshots: false
+
+network:
+  enabled: true                  # capture XHR/fetch endpoints
+  capture_request_body: true
+  capture_response_body: false   # tắt để tiết kiệm bộ nhớ
+  redact_sensitive_values: true
+  max_body_sample_size: 2048
+  xhr_only: true
+
+interact:
+  enabled: false                 # DEFAULT OFF — bật để discover modal/tab/dropdown
+  max_interactions_per_page: 10
+  discover_modals: true
+  discover_tabs: true
+  discover_dropdowns: true
+  interaction_settle_ms: 600
+```
+
+### Authentication
+
+#### Form login
 
 ```yaml
 auth:
@@ -80,76 +143,127 @@ auth:
   username: ${TEST_USER}
   password: ${TEST_PASSWORD}
   success_indicator: url=/dashboard
-  save_storage_state: ./auth-state.json
+  save_storage_state: ./auth-state.json  # lưu để tái sử dụng
 ```
 
-Credentials read from `.env`. Run once to log in, subsequent runs reuse `auth-state.json` (much faster).
+Credentials được đọc từ `.env`. Chạy lần đầu để login, các lần sau dùng `auth-state.json` (nhanh hơn nhiều).
+
+#### Storage state (reuse login)
+
+```yaml
+auth:
+  mode: storage_state
+  storage_state_path: ./auth-state.json
+```
+
+#### Bearer token
+
+```yaml
+auth:
+  mode: bearer
+  token: ${API_TOKEN}
+```
+
+---
 
 ## Output
 
-A timestamped JSON file:
+Output được ghi vào file JSON với timestamp suffix:
 
 ```
 output/
-├── discovery_20260626_153000.json
-├── screenshots/         # if save_screenshots: true
-│   └── page_001.png
+├── discovery_20260628_153000.json
+└── screenshots/          # nếu save_screenshots: true
+    ├── page_001.png
+    └── page_002.png
 ```
 
-Top-level shape:
+Xem schema đầy đủ tại [`docs/OUTPUT_SCHEMA.md`](./docs/OUTPUT_SCHEMA.md).
+
+Root-level shape:
 
 ```json
 {
-  "metadata": { "base_url": "...", "discovered_at": "...", "duration_seconds": 12.4 },
-  "stats":    { "pages_discovered": 8, "total_forms": 3, "security_components": 5 },
-  "pages":    [ /* DiscoveredPage objects */ ],
-  "graph":    { "edges": [ /* parent → child links */ ] },
-  "errors":   [ /* per-URL failures, not fatal */ ]
+  "metadata":                 { "base_url": "...", "discovered_at": "...", "duration_seconds": 12.4 },
+  "stats":                    { "pages_discovered": 8, "total_forms": 3, "security_components": 5 },
+  "pages":                    [ ],
+  "graph":                    { "edges": [ ] },
+  "errors":                   [ ],
+  "endpoints":                [ ],
+  "network_summary":          { },
+  "application_model":        { "routes": [], "forms": [], "navigation_graph": [] },
+  "attack_surface_model":     { "auth_surfaces": [], "data_input_surfaces": [], ... },
+  "security_testing_context": { "recommended_test_categories": [], "priority_targets": [], "candidate_playwright_flows": [] },
+  "evaluation_metrics":       { "pages_discovered": 8, "selector_success_rate": 0.91, ... }
 }
 ```
 
-Each `DiscoveredPage` contains forms, inputs, buttons, links, tables, security components, and URL parameters — all with stable Playwright selectors (`page.getByRole(...)`, `page.getByLabel(...)`, `page.getByTestId(...)`).
+Xem chi tiết cách dùng output để sinh security tests tại [`docs/SECURITY_TESTING_CONTEXT.md`](./docs/SECURITY_TESTING_CONTEXT.md).
 
-This output is the **input** for the downstream test generator. It is combined with Security Knowledge (OWASP rules + payloads) and Tester Requirement (scope/priority config) to generate runnable Playwright security tests.
+---
 
-## Validate an output file
+## Examples
+
+| File | Mô tả |
+|------|-------|
+| [`examples/basic.yml`](./examples/basic.yml) | Public site, không auth |
+| [`examples/with-auth.yml`](./examples/with-auth.yml) | Storage state login, crawl sau auth |
+| [`examples/full-config.yml`](./examples/full-config.yml) | Full config với network + interact bật |
+
+---
+
+## Tests
 
 ```bash
-npm run dev -- validate ./output/discovery_20260626_153000.json
+npm test           # chạy một lần
+npm run test:watch # watch mode
 ```
+
+109 unit tests covering: `normalizeUrl`, `matchGlob`, `generateSelector`, `classifyConfidence`, `classifyPage`, `classifyInput`, `normalizePath`, `buildNetworkSummary`, `buildEvaluationMetrics`.
+
+---
 
 ## Project layout
 
 ```
 src/
-├── cli.ts                       # entry
-├── config/                      # YAML schema + loader
-├── crawler/                     # BFS/DFS, queue, URL utils
-├── auth/                        # form/basic/bearer/storage_state
-├── extractors/                  # DOM extraction (browser + Node)
-├── selectors/                   # stable Playwright selector generation
-├── classifier/                  # page type + security component heuristics
-├── output/                      # final schema + writer
-└── utils/                       # logger, retry
+├── cli.ts                    # CLI entry (Commander subcommands)
+├── config/                   # Zod schema + YAML loader
+├── crawler/                  # BFS/DFS orchestrator, URL queue, dynamic explorer
+├── auth/                     # form / basic / bearer / storage_state handlers
+├── extractors/               # DOM extraction (browser-side) + Node transformer
+├── selectors/                # Playwright selector generation + verification
+├── classifier/               # page type + security component + semantic input
+├── probe/                    # network monitor (XHR/fetch capture)
+├── output/                   # DiscoveryOutput schema, model builder, metrics
+└── utils/                    # Pino logger, retry helper
+tests/                        # Vitest unit tests (no Playwright, no internet)
+docs/                         # OUTPUT_SCHEMA.md, SECURITY_TESTING_CONTEXT.md
+examples/                     # YAML config examples
 ```
 
-## Limitations (MVP)
+---
 
-- No dynamic content depth (modals, infinite scroll, tabs) yet — see overview.md §G
-- CAPTCHA / Cloudflare-protected sites are skipped, not bypassed
-- Same-page hash-route SPAs are treated as one page
-- No probing of forms by default (safe-by-default; opt-in coming later)
+## Limitations
+
+- **Không phải DAST scanner** — không tự động khai thác lỗ hổng, không thay thế OWASP ZAP / Wapiti / Nuclei.
+- **Không tự submit form** — side-effect actions phải bật thủ công trong config.
+- **Dynamic UI** — mặc định tắt (`interact.enabled: false`). Khi tắt, modal/tab/dropdown ẩn không được crawl.
+- **Network capture** — chỉ capture request được trigger trong quá trình crawl. API endpoint không được call sẽ không xuất hiện trong output.
+- **CAPTCHA / Cloudflare** — không bypass, page bị chặn sẽ bị ghi vào `errors[]`.
+- **SPA hash routing** — `#/route1` và `#/route2` được coi là cùng một page.
+- **Selector verification** — thêm N lần `locator.count()` call mỗi page (N = số element). Có thể làm chậm crawl trên trang lớn.
 
 ## Config fields — reserved for future use
 
-The following config fields are **accepted but not yet implemented**. They are validated and stored, but have no effect at runtime:
+| Field | Default | Ghi chú |
+|-------|---------|---------|
+| `crawl.parallel` | `1` | `reserved_for_future_use` — crawl tuần tự hiện tại |
+| `crawl.respect_robots_txt` | `true` | `reserved_for_future_use` — chưa đọc robots.txt |
+| `output.save_traces` | `false` | `reserved_for_future_use` — chưa lưu Playwright traces |
 
-| Field | Default | Status |
-|-------|---------|--------|
-| `crawl.parallel` | `1` | `reserved_for_future_use` — concurrent page crawling (currently sequential) |
-| `crawl.respect_robots_txt` | `true` | `reserved_for_future_use` — robots.txt enforcement not yet active |
-| `output.save_traces` | `false` | `reserved_for_future_use` — Playwright trace saving not yet wired |
+---
 
 ## License
 
-Internal project.
+Internal / academic project.

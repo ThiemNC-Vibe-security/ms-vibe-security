@@ -1,0 +1,84 @@
+# Full config — tất cả options với comment giải thích
+# Dùng làm reference khi config cho target mới
+# Chạy: npm run dev -- run --config examples/full-config.yml
+
+target: https://your-app.example.com
+
+# ── Scope ─────────────────────────────────────────────────────────────
+scope:
+  # include: chỉ crawl path khớp (rỗng = không lọc)
+  include: []
+  # exclude: bỏ qua path này dù có link đến
+  exclude:
+    - /logout
+    - /admin/**          # glob: ** khớp mọi sub-path
+
+# ── Crawl ─────────────────────────────────────────────────────────────
+crawl:
+  max_pages: 30
+  max_depth: 4
+  strategy: bfs            # bfs (breadth-first) | dfs (depth-first)
+  same_domain_only: true
+  follow_subdomains: false
+  # parallel: 1           # reserved_for_future_use
+  # respect_robots_txt: true  # reserved_for_future_use
+
+# ── Auth ──────────────────────────────────────────────────────────────
+auth:
+  mode: form               # none | basic | bearer | form | storage_state
+  login_url: /login
+  username_selector: 'input[name="email"]'
+  password_selector: 'input[name="password"]'
+  submit_selector: 'button[type="submit"]'
+  username: ${TEST_USER}   # đọc từ .env
+  password: ${TEST_PASSWORD}
+  success_indicator: url=/dashboard
+  save_storage_state: ./auth-state.json
+
+# ── Browser ───────────────────────────────────────────────────────────
+browser:
+  type: chromium           # chromium | firefox | webkit
+  headless: true
+  user_agent: null         # null = dùng default của Playwright
+  viewport:
+    width: 1280
+    height: 800
+  locale: en-US
+  timezone: UTC
+
+# ── Timing ────────────────────────────────────────────────────────────
+timing:
+  navigation_timeout: 30000   # ms
+  wait_for_network_idle: true
+  wait_after_navigation: 1000 # ms — đợi SPA render xong
+  action_timeout: 10000       # ms
+
+# ── Retry ─────────────────────────────────────────────────────────────
+retry:
+  max_attempts: 2
+  backoff_ms: 2000
+
+# ── Output ────────────────────────────────────────────────────────────
+output:
+  dir: ./output
+  filename_pattern: discovery_{timestamp}.json
+  save_screenshots: true
+  # save_traces: false     # reserved_for_future_use
+
+# ── Network capture (Phase 5) ─────────────────────────────────────────
+network:
+  enabled: true
+  capture_request_body: true
+  capture_response_body: false    # true = tốn bộ nhớ, chỉ bật khi cần
+  redact_sensitive_values: true   # luôn bật trên môi trường thật
+  max_body_sample_size: 2048      # bytes
+  xhr_only: true                  # false = capture cả document/script
+
+# ── Dynamic UI interaction (Phase 6) ─────────────────────────────────
+interact:
+  enabled: true                   # BẬT để discover modal/tab/dropdown
+  max_interactions_per_page: 10
+  discover_modals: true
+  discover_tabs: true
+  discover_dropdowns: true
+  interaction_settle_ms: 600      # ms đợi sau mỗi click
