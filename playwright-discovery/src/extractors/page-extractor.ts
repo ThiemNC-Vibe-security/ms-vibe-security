@@ -22,7 +22,14 @@ import {
   buildStandaloneInputs,
   buildTables,
 } from './transformer.js';
+import { applyVerification, verifySelectors } from '../selectors/selector-verifier.js';
 import type { DiscoveredPage, SecurityComponent, UrlParameter } from '../output/schema.js';
+import type {
+  ExtractedButton,
+  ExtractedForm,
+  ExtractedInput,
+  ExtractedLink,
+} from './types.js';
 
 export interface PageEnrichmentHooks {
   /** Classify page type from URL + raw signals. */
@@ -89,11 +96,101 @@ export async function extractPage(
   const navigation = buildNavigation(raw.navigation);
   const tables = buildTables(raw.tables);
 
+  // ── Phase 2: Selector Verification ──────────────────────────────────
+  // Verify selectors for "important" elements: form inputs, standalone inputs,
+  // buttons, and links. Tables and navigation links are skipped to keep
+  // the overhead manageable.
+  //
+  // We collect all (element, index, kind) references, batch-verify them in one
+  // sequential pass, then write results back into the arrays.
+  type VerifiableKind = 'form_input' | 'input' | 'button' | 'link' | 'form';
+
+  interface VerifiableRef {
+    selector: string;
+    kind: VerifiableKind;
+    formIdx?: number;
+    inputIdx?: number;
+    itemIdx?: number;
+  }
+
+  const refs: VerifiableRef[] = [];
+
+  // Form-level selectors
+  for (let fi = 0; fi < forms.length; fi++) {
+    refs.push({ selector: forms[fi].selector, kind: 'form', formIdx: fi });
+    for (let ii = 0; ii < forms[fi].inputs.length; ii++) {
+      refs.push({ selector: forms[fi].inputs[ii].selector, kind: 'form_input', formIdx: fi, inputIdx: ii });
+    }
+  }
+  // Standalone inputs
+  for (let ii = 0; ii < inputs.length; ii++) {
+    refs.push({ selector: inputs[ii].selector, kind: 'input', itemIdx: ii });
+  }
+  // Buttons
+  for (let bi = 0; bi < buttons.length; bi++) {
+    refs.push({ selector: buttons[bi].selector, kind: 'button', itemIdx: bi });
+  }
+  // Links (top-level page links — nav links excluded for brevity)
+  for (let li = 0; li < links.length; li++) {
+    refs.push({ selector: links[li].selector, kind: 'link', itemIdx: li });
+  }
+
+  logger.debug({ count: refs.length, url: raw.url }, 'verifying selectors');
+  const verResults = await verifySelectors(pwPage, refs);
+
+  // Write verification results back — mutate local copies (not the originals)
+  const verifiedForms: ExtractedForm[] = forms.map((f) => ({ ...f, inputs: [...f.inputs] }));
+  const verifiedInputs: ExtractedInput[] = [...inputs];
+  const verifiedButtons: ExtractedButton[] = [...buttons];
+  const verifiedLinks: ExtractedLink[] = [...links];
+
+  let verified = 0;
+  let high = 0;
+
+  for (let i = 0; i < refs.length; i++) {
+    const ref = refs[i];
+    const vr = verResults[i];
+    if (vr.selector_verified) verified++;
+    if (vr.selector_confidence === 'high') high++;
+
+    switch (ref.kind) {
+      case 'form':
+        verifiedForms[ref.formIdx!] = applyVerification(verifiedForms[ref.formIdx!], vr);
+        break;
+      case 'form_input':
+        verifiedForms[ref.formIdx!].inputs[ref.inputIdx!] = applyVerification(
+          verifiedForms[ref.formIdx!].inputs[ref.inputIdx!],
+          vr,
+        );
+        break;
+      case 'input':
+        verifiedInputs[ref.itemIdx!] = applyVerification(verifiedInputs[ref.itemIdx!], vr);
+        break;
+      case 'button':
+        verifiedButtons[ref.itemIdx!] = applyVerification(verifiedButtons[ref.itemIdx!], vr);
+        break;
+      case 'link':
+        verifiedLinks[ref.itemIdx!] = applyVerification(verifiedLinks[ref.itemIdx!], vr);
+        break;
+    }
+  }
+
+  logger.debug(
+    {
+      total: refs.length,
+      verified,
+      high,
+      success_rate: refs.length > 0 ? (verified / refs.length).toFixed(2) : 'n/a',
+    },
+    'selector verification complete',
+  );
+  // ────────────────────────────────────────────────────────────────────
+
   // Build classification signals
-  const passwordField = forms.some((f) => f.inputs.some((i) => i.type === 'password')) ||
-    inputs.some((i) => i.type === 'password');
-  const searchBox = inputs.some((i) => i.type === 'search') ||
-    forms.some((f) => f.inputs.some((i) => i.type === 'search'));
+  const passwordField = verifiedForms.some((f) => f.inputs.some((i) => i.type === 'password')) ||
+    verifiedInputs.some((i) => i.type === 'password');
+  const searchBox = verifiedInputs.some((i) => i.type === 'search') ||
+    verifiedForms.some((f) => f.inputs.some((i) => i.type === 'search'));
   const signals: PageSignals = {
     url: raw.url,
     title: raw.title,
@@ -101,8 +198,8 @@ export async function extractPage(
     hasPasswordField: passwordField,
     hasSearchBox: searchBox,
     hasTable: tables.length > 0,
-    formCount: forms.length,
-    inputCount: inputs.length + forms.reduce((sum, f) => sum + f.inputs.length, 0),
+    formCount: verifiedForms.length,
+    inputCount: verifiedInputs.length + verifiedForms.reduce((sum, f) => sum + f.inputs.length, 0),
   };
 
   const pageType = options.hooks?.classifyPageType?.(signals) ?? 'unknown';
@@ -129,11 +226,11 @@ export async function extractPage(
     load_time_ms: Date.now() - start,
 
     navigation,
-    forms,
-    buttons,
-    inputs,
+    forms: verifiedForms,
+    buttons: verifiedButtons,
+    inputs: verifiedInputs,
     tables,
-    links,
+    links: verifiedLinks,
 
     security_components: [],
     url_parameters: urlParameters,

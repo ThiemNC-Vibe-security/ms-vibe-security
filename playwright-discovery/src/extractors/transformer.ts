@@ -5,9 +5,14 @@
  * element with stable Playwright selectors (via selectors/generator.ts).
  *
  * Each per-element helper is exported so it can be unit-tested independently.
+ *
+ * Note: All SelectorBundle fields are populated here with unverified defaults.
+ * The verification pass (Phase 2) runs in page-extractor.ts after transformation
+ * and fills in selector_verified / selector_confidence on the live page.
  */
 
 import { generateSelector } from '../selectors/generator.js';
+import { UNVERIFIED } from '../selectors/selector-verifier.js';
 import type { ElementInfo } from '../selectors/types.js';
 import type {
   ExtractedButton,
@@ -30,6 +35,8 @@ function selectorOf(info: ElementInfo) {
     selector: result.selector,
     playwright_locator: result.playwrightLocator,
     alternate_locators: result.alternates,
+    // Verification fields default to unverified — filled in by selector-verifier.ts
+    ...UNVERIFIED,
   };
 }
 

@@ -74,10 +74,28 @@ export interface RawPageSnapshot {
 
 /* ----------------------------- Extracted ----------------------------- */
 
+/**
+ * Selector confidence level, derived from Playwright verification results.
+ *
+ *   high   — verified, exactly 1 match (unique)
+ *   medium — verified, but >1 elements matched
+ *   low    — not verified (no Playwright check was performed, or fallback css-path)
+ */
+export type SelectorConfidence = 'high' | 'medium' | 'low';
+
 export interface SelectorBundle {
   selector: string;
   playwright_locator: string;
   alternate_locators: string[];
+  /**
+   * Phase 2: selector verification metadata.
+   * Present after extractPage() runs the verification pass.
+   * `selector_verified: false` when verification was skipped or failed.
+   */
+  selector_verified: boolean;
+  selector_unique: boolean;
+  selector_match_count: number;
+  selector_confidence: SelectorConfidence;
 }
 
 export interface ExtractedInput extends SelectorBundle {
