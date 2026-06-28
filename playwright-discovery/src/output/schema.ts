@@ -14,6 +14,7 @@ import type {
   ExtractedTable,
 } from '../extractors/types.js';
 import type { SecurityModels } from './model-builder.js';
+import type { CapturedEndpoint, NetworkSummary } from '../probe/network-monitor.js';
 
 /* ----------------------------- Top-level ----------------------------- */
 
@@ -27,6 +28,10 @@ export interface DiscoveryOutput extends SecurityModels {
    * Phase 4 fields (application_model, attack_surface_model,
    * security_testing_context) are inherited from SecurityModels.
    */
+  /** Phase 5: deduplicated API endpoints observed during crawl */
+  endpoints: CapturedEndpoint[];
+  /** Phase 5: high-level network capture statistics */
+  network_summary: NetworkSummary;
 }
 
 export interface DiscoveryMetadata {

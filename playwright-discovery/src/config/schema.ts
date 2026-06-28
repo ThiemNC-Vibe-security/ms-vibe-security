@@ -77,6 +77,21 @@ export const OutputSchema = z.object({
   save_traces: z.boolean().default(false).describe('reserved_for_future_use'),
 });
 
+export const NetworkSchema = z.object({
+  /** Enable XHR/fetch endpoint capture via Playwright request/response listeners */
+  enabled: z.boolean().default(true),
+  /** Capture request body samples (POST/PUT/PATCH payloads) */
+  capture_request_body: z.boolean().default(true),
+  /** Capture response body samples (disabled by default — high memory risk) */
+  capture_response_body: z.boolean().default(false),
+  /** Redact sensitive values in captured bodies (always recommended) */
+  redact_sensitive_values: z.boolean().default(true),
+  /** Maximum bytes to sample from request/response bodies */
+  max_body_sample_size: z.number().int().positive().default(2048),
+  /** Only capture XHR/fetch (xhr, fetch). Set false to also capture document/script */
+  xhr_only: z.boolean().default(true),
+});
+
 export const ConfigSchema = z.object({
   target: z.string().url('target must be a valid URL'),
   scope: ScopeSchema.default({}),
@@ -86,6 +101,7 @@ export const ConfigSchema = z.object({
   timing: TimingSchema.default({}),
   retry: RetrySchema.default({}),
   output: OutputSchema.default({}),
+  network: NetworkSchema.default({}),
 });
 
 export type Config = z.infer<typeof ConfigSchema>;
@@ -95,3 +111,4 @@ export type CrawlConfig = z.infer<typeof CrawlSchema>;
 export type ScopeConfig = z.infer<typeof ScopeSchema>;
 export type TimingConfig = z.infer<typeof TimingSchema>;
 export type OutputConfig = z.infer<typeof OutputSchema>;
+export type NetworkConfig = z.infer<typeof NetworkSchema>;

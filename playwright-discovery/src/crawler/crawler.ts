@@ -23,6 +23,8 @@ import { extractPage, screenshotPathFor } from '../extractors/page-extractor.js'
 import { classifyPage } from '../classifier/page-type.js';
 import { detectSecurityComponents } from '../classifier/security-detector.js';
 import { buildSecurityModels } from '../output/model-builder.js';
+import { NetworkMonitor, buildNetworkSummary } from '../probe/network-monitor.js';
+import type { CapturedEndpoint } from '../probe/network-monitor.js';
 import type { Config } from '../config/schema.js';
 import type { AuthBundle } from '../auth/index.js';
 import type {
@@ -49,6 +51,10 @@ export class Crawler {
   private readonly pages: DiscoveredPage[] = [];
   private readonly errors: DiscoveryError[] = [];
   private readonly edges: CrawlEdge[] = [];
+  /** Phase 5: accumulated captured endpoints across all pages */
+  private readonly allEndpoints: CapturedEndpoint[] = [];
+  /** Phase 5: total request count (including duplicates before dedup) */
+  private totalRequestCount = 0;
 
   constructor(opts: CrawlerOptions) {
     this.config = opts.config;
@@ -181,6 +187,16 @@ export class Crawler {
     const page = await this.context!.newPage();
     let httpStatus = 0;
 
+    // Phase 5: attach network monitor if enabled
+    const networkEnabled = this.config.network.enabled;
+    const monitor = networkEnabled
+      ? new NetworkMonitor(this.config.network, item.url)
+      : null;
+    let detachMonitor: (() => void) | null = null;
+    if (monitor) {
+      detachMonitor = monitor.attach(page);
+    }
+
     try {
       const result = await retry(
         async () => {
@@ -221,6 +237,16 @@ export class Crawler {
 
       this.pages.push(final);
 
+      // Phase 5: collect endpoints from this page
+      if (monitor) {
+        const pageEndpoints = monitor.flush();
+        this.totalRequestCount += pageEndpoints.length;
+        this.allEndpoints.push(...pageEndpoints);
+        if (pageEndpoints.length > 0) {
+          logger.debug({ url: item.url, endpoints: pageEndpoints.length }, 'network endpoints captured');
+        }
+      }
+
       logger.info(
         {
           url: final.url,
@@ -254,6 +280,7 @@ export class Crawler {
         timestamp: new Date().toISOString(),
       });
     } finally {
+      detachMonitor?.();
       try {
         await page.close();
       } catch {
@@ -328,6 +355,25 @@ export class Crawler {
       'security models built',
     );
 
+    // Phase 5: dedup endpoints cross-page (same method+normalized_path across pages → keep last)
+    const endpointDedup = new Map<string, CapturedEndpoint>();
+    for (const ep of this.allEndpoints) {
+      endpointDedup.set(`${ep.method}::${ep.normalized_path}`, ep);
+    }
+    const endpoints = Array.from(endpointDedup.values());
+    const networkSummary = buildNetworkSummary(endpoints, this.totalRequestCount);
+
+    if (this.config.network.enabled) {
+      logger.info(
+        {
+          total_requests: networkSummary.total_requests,
+          api_endpoints: networkSummary.total_api_endpoints,
+          methods: networkSummary.methods,
+        },
+        'network capture complete',
+      );
+    }
+
     return {
       metadata: {
         base_url: this.config.target,
@@ -341,6 +387,8 @@ export class Crawler {
       pages: this.pages,
       graph: { edges: this.edges },
       errors: this.errors,
+      endpoints,
+      network_summary: networkSummary,
       ...securityModels,
     };
   }
